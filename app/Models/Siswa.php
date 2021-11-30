@@ -10,8 +10,15 @@ class Siswa extends Model
     use HasFactory;
 
     protected $table = "siswa";
+    protected $primaryKey = 'nik';
+    public $incrementing = false;
 
     protected $fillable = [
-        'title', 'nama_siswa'
+        'nama_siswa', 'nik'
     ];
+
+    public function penjemput()
+    {
+        return $this->hasMany(Penjemput::class, 'nik_siswa', 'nik');
+    }
 }

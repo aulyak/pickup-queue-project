@@ -31,7 +31,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
         return redirect()->route('dashboard');
     });
 
+    Route::get('/home', function () {
+        return redirect()->route('dashboard');
+    });
+
     Route::resource('siswa', SiswaController::class);
+    Route::resource('penjemput', PenjemputController::class);
 
     // More routes here
 

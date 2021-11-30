@@ -1,57 +1,115 @@
 @extends('adminlte::page')
 
-@section('title', 'Dashboard')
+@section('title', 'Data Siswa')
 
 @section('content_header')
 
-Dashboard
+    Manage Siswa
 
 @stop
 
 @section('content')
 
-<div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Quick Example</h3>
-    </div>
-    <!-- /.card-header -->
-    <!-- form start -->
-    <form>
-      <div class="card-body">
-        <div class="form-group">
-          <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-        </div>
-        <div class="form-group">
-          <label for="exampleInputFile">File input</label>
-          <div class="input-group">
-            <div class="custom-file">
-              <input type="file" class="custom-file-input" id="exampleInputFile">
-              <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>Tabel Siswa</h1>
+                </div>
+                {{-- <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">DataTables</li>
+                    </ol>
+                </div> --}}
             </div>
-            <div class="input-group-append">
-              <span class="input-group-text">Upload</span>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <a type="button" class="btn btn-primary" href="{{ route('siswa.create') }}"><i
+                                    class="fa fa-plus-circle"></i> Tambah
+                                Siswa</a>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <div id="table_siswa_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6"></div>
+                                    <div class="col-sm-12 col-md-6"></div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <table id="table_siswa"
+                                            class="table table-bordered table-hover dataTable dtr-inline" role="grid"
+                                            aria-describedby="table_siswa_info">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th></th>
+                                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="table_siswa"
+                                                        rowspan="1" colspan="1" aria-sort="ascending"
+                                                        aria-label="No.: activate to sort column descending">
+                                                        No.</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="table_siswa"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="NIK: activate to sort column ascending">NIK</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="table_siswa"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Nama: activate to sort column ascending">
+                                                        Nama</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="table_siswa"
+                                                        rowspan="1" colspan="1"
+                                                        aria-label="Action: activate to sort column ascending">
+                                                        Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($data as $key => $siswa)
+                                                    <tr data-penjemput="{{ $siswa->penjemput }}">
+                                                        <td class="dt-control text-center" style="cursor:pointer">
+                                                            <i type="button" class="fa fa-plus-circle"></i>
+                                                        </td>
+                                                        <td>{{ $key + 1 }}</td>
+                                                        <td>{{ $siswa->nik }}</td>
+                                                        <td>{{ ucwords($siswa->nama_siswa) }}</td>
+                                                        <td>
+                                                            <div class="btn-group">
+                                                                <a type="button" class="btn btn-info mr-1"
+                                                                    href={{ route('siswa.show', ['siswa' => $siswa]) }}><i
+                                                                        class="fa fa-eye"></i></a>
+                                                                <a type="button" class="btn btn-success mr-1"
+                                                                    href={{ route('siswa.edit', ['siswa' => $siswa]) }}><i
+                                                                        class="fa fa-edit"></i></a>
+                                                                <a type="button" class="btn btn-danger mr-1"
+                                                                    onclick="notificationBeforeDelete(event, this)"
+                                                                    href="{{ route('siswa.destroy', ['siswa' => $siswa]) }}"><i
+                                                                        class="fa fa-trash"></i></a>
+                                                            </div>
+                                                        </td>
+
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </div>
+                <!-- /.col -->
             </div>
-          </div>
+            <!-- /.row -->
         </div>
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="exampleCheck1">
-          <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
-      </div>
-      <!-- /.card-body -->
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-  </div>
-
-
+        <!-- /.container-fluid -->
+    </section>
 @stop
 
 @section('css')
@@ -59,5 +117,81 @@ Dashboard
 @stop
 
 @section('js')
+    <form action="" id="delete-form" method="post">
+        @method('delete')
+        @csrf
+    </form>
+    <script>
+        function notificationBeforeDelete(event, el) {
+            event.preventDefault();
 
+            Swal.fire({
+                icon: 'warning',
+                title: 'Apakah anda yakin akan menghapus data?',
+                text: 'Data yang sudah dihapus tidak dapat dikembalikan',
+                showCancelButton: true,
+            }).then(resp => {
+                if (resp.isConfirmed) {
+                    $("#delete-form").attr('action', $(el).attr('href'));
+                    $("#delete-form").submit();
+                }
+            });
+        }
+        /* Formatting function for row details - modify as you need */
+        function format(d) {
+
+            if (!d.length) return $('<p>No Data</p>');
+
+            const $table = $('<table class="table table-bordered"></table>');
+            const $thead = $('<thead></thead>');
+            const $trh = $('<tr><th>No. </th><th>Nama Penjemput</th><th>No Telpon</th></tr>');
+            const $tbody = $('<tbody></tbody>');
+
+            $thead.append($trh);
+            $table.append($thead, $tbody);
+
+            d.forEach(function(item, index) {
+                const no = index + 1;
+                $tbody.append(
+                    `<tr><td>${no.toString()}</td><td>${item.nama_penjemput}</td><td>${item.no_penjemput}</td></tr>`
+                );
+            });
+
+            // `d` is the original data object for the row
+            return $table;
+        }
+
+        $(document).ready(function() {
+            var table = $('#table_siswa').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": false,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+
+            // Add event listener for opening and closing details
+            $('#table_siswa tbody').on('click', 'td.dt-control', function() {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+                var rowData = $(tr).data('penjemput');
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                    $(tr).find('.dt-control').find('i').removeClass('fa-minus-circle');
+                    $(tr).find('.dt-control').find('i').addClass('fa-plus-circle');
+                } else {
+                    // Open this row
+                    row.child(format(rowData)).show();
+                    tr.addClass('shown');
+                    $(tr).find('.dt-control').find('i').addClass('fa-minus-circle');
+                    $(tr).find('.dt-control').find('i').removeClass('fa-plus-circle');
+                }
+            });
+        });
+    </script>
 @stop

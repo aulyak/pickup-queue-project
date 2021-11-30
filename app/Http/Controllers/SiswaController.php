@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\Penjemput;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SiswaController extends Controller
 {
@@ -14,10 +17,13 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        $data = Siswa::latest()->paginate(5);
+        // $data = Siswa::with('penjemput')->paginate(5);
+        $data = Siswa::with('penjemput')->get();
 
-        return view('siswa.index', compact('data'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        // dd($data);
+        
+        return view('siswa.index', compact('data'));
+            // ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -27,7 +33,7 @@ class SiswaController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        return view('siswa.create');
     }
 
     /**
@@ -38,15 +44,31 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nik' => 'required',
-            'nama_siswa' => 'required'
-        ]);
+        $siswa = new Siswa;
 
-        Siswa::create($request->all());
+        $request->validate([
+            'nik' => 'required|unique:siswa|numeric',
+            'nama_siswa' => 'required',
+            'foto_siswa' => 'required|mimes:jpg, jpeg, png'
+        ]);
+        
+        $siswa->nik = $request->input('nik');
+        $siswa->nama_siswa = ucwords($request->input('nama_siswa'));
+
+        if ($request->hasFile('foto_siswa')) {
+            $file = $request->file('foto_siswa');
+            $name = $file->getClientOriginalName();
+            $file_name =  $siswa->nik.'_'.$name;
+            $file_name =  $name;
+            // dd($file_name);
+            $file->move(public_path('foto_siswa'), $file_name);
+            $siswa->path_to_photo = $name;
+        }
+
+        $siswa->save();
 
         return redirect()->route('siswa.index')
-            ->with('success', 'Siswa created successfully.');
+            ->with('success_message', 'Siswa created successfully.');
     }
 
     /**
@@ -57,6 +79,7 @@ class SiswaController extends Controller
      */
     public function show(Siswa $siswa)
     {
+        // dd($siswa);
         return view('siswa.show', compact('siswa'));
     }
 
@@ -80,15 +103,27 @@ class SiswaController extends Controller
      */
     public function update(Request $request, Siswa $siswa)
     {
+
         $request->validate([
-            'nik' => 'required',
-            'nama_siswa' => 'required',
+            'nama_siswa' => 'required'
         ]);
+        
+        $siswa->nama_siswa = ucwords($request->input('nama_siswa'));
 
-        $siswa->update($request->all());
+        if ($request->hasFile('foto_siswa')) {
+            $file = $request->file('foto_siswa');
+            $name = $file->getClientOriginalName();
+            $file_name =  $siswa->nik.'_'.$name;
+            $file_name =  $name;
+            // dd($file_name);
+            $file->move(public_path('foto_siswa'), $file_name);
+            $siswa->path_to_photo = $name;
+        }
 
-        return redirect()->route('siswa.index')
-            ->with('success', 'Siswa updated successfully');
+        $siswa->save();
+
+        return redirect()->route('siswa.show', ['siswa' => $siswa])
+            ->with('success_message', 'Siswa updated successfully.');
     }
 
     /**
@@ -99,9 +134,25 @@ class SiswaController extends Controller
      */
     public function destroy(Siswa $siswa)
     {
-        $siswa->delete();
+        $data = $siswa->penjemput()->get();
+        // dd($data);
+
+        DB::beginTransaction();
+        try {
+            $siswa->delete();
+            foreach ($data as $key => $penjemput) {
+                $penjemput->delete();
+            }
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+            dump('gagal euy');
+            dump($ex);
+            return redirect()->route('siswa.index')
+            ->with('error_message', $ex);
+        }
 
         return redirect()->route('siswa.index')
-            ->with('success', 'Siswa deleted successfully');
+            ->with('success_message', 'Siswa deleted successfully');
     }
 }
