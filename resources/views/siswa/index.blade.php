@@ -10,29 +10,14 @@
 
 @section('content')
 
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Tabel Siswa</h1>
-                </div>
-                {{-- <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
-                    </ol>
-                </div> --}}
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
-
     <section class="content">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <a type="button" class="btn btn-primary" href="{{ route('siswa.create') }}"><i
+                            <h2 class="float-left">Data Siswa</h2>
+                            <a type="button" class="btn btn-primary float-right" href="{{ route('siswa.create') }}"><i
                                     class="fa fa-plus-circle"></i> Tambah
                                 Siswa</a>
                         </div>
@@ -51,21 +36,10 @@
                                             <thead>
                                                 <tr role="row">
                                                     <th></th>
-                                                    <th class="sorting sorting_asc" tabindex="0" aria-controls="table_siswa"
-                                                        rowspan="1" colspan="1" aria-sort="ascending"
-                                                        aria-label="No.: activate to sort column descending">
-                                                        No.</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="table_siswa"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="NIK: activate to sort column ascending">NIK</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="table_siswa"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Nama: activate to sort column ascending">
-                                                        Nama</th>
-                                                    <th class="sorting" tabindex="0" aria-controls="table_siswa"
-                                                        rowspan="1" colspan="1"
-                                                        aria-label="Action: activate to sort column ascending">
-                                                        Action</th>
+                                                    <th>No.</th>
+                                                    <th>NIK</th>
+                                                    <th>Nama</th>
+                                                    <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -163,10 +137,16 @@
 
         $(document).ready(function() {
             var table = $('#table_siswa').DataTable({
+                columnDefs: [{
+                    bSortable: false,
+                    targets: [0, 1, 4]
+                }],
+                order: [
+                    [2, 'asc']
+                ],
                 "paging": true,
                 "lengthChange": false,
                 "searching": false,
-                "ordering": true,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,

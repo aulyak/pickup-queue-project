@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
-use App\Models\Penjemput;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File; 
+use Illuminate\Support\Facades\Storage;
 
 class SiswaController extends Controller
 {
@@ -17,13 +17,9 @@ class SiswaController extends Controller
      */
     public function index()
     {
-        // $data = Siswa::with('penjemput')->paginate(5);
         $data = Siswa::with('penjemput')->get();
 
-        // dd($data);
-        
         return view('siswa.index', compact('data'));
-            // ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -59,10 +55,11 @@ class SiswaController extends Controller
             $file = $request->file('foto_siswa');
             $name = $file->getClientOriginalName();
             $file_name =  $siswa->nik.'_'.$name;
-            $file_name =  $name;
-            // dd($file_name);
-            $file->move(public_path('foto_siswa'), $file_name);
-            $siswa->path_to_photo = $name;
+            $path = $file->storeAs(
+                'public/foto_siswa', $file_name
+            );
+            // $file->move(public_path('foto_siswa'), $file_name);
+            $siswa->path_to_photo = $file_name;
         }
 
         $siswa->save();
@@ -79,8 +76,8 @@ class SiswaController extends Controller
      */
     public function show(Siswa $siswa)
     {
-        // dd($siswa);
-        return view('siswa.show', compact('siswa'));
+        $data_penjemput = $siswa->penjemput()->get();
+        return view('siswa.show', compact('siswa', 'data_penjemput'));
     }
 
     /**
@@ -105,7 +102,8 @@ class SiswaController extends Controller
     {
 
         $request->validate([
-            'nama_siswa' => 'required'
+            'nama_siswa' => 'required',
+            'foto_siswa' => 'mimes:jpg, jpeg, png'
         ]);
         
         $siswa->nama_siswa = ucwords($request->input('nama_siswa'));
@@ -114,10 +112,12 @@ class SiswaController extends Controller
             $file = $request->file('foto_siswa');
             $name = $file->getClientOriginalName();
             $file_name =  $siswa->nik.'_'.$name;
-            $file_name =  $name;
-            // dd($file_name);
-            $file->move(public_path('foto_siswa'), $file_name);
-            $siswa->path_to_photo = $name;
+            $path = $file->storeAs(
+                'public/foto_siswa', $file_name
+            );
+            // $file->move(public_path('foto_siswa'), $file_name);
+            Storage::delete('public/foto_siswa/'.$siswa->path_to_photo);
+            $siswa->path_to_photo = $file_name;
         }
 
         $siswa->save();
@@ -135,19 +135,18 @@ class SiswaController extends Controller
     public function destroy(Siswa $siswa)
     {
         $data = $siswa->penjemput()->get();
-        // dd($data);
-
+        
         DB::beginTransaction();
         try {
             $siswa->delete();
             foreach ($data as $key => $penjemput) {
                 $penjemput->delete();
             }
+
+            Storage::delete('public/foto_siswa/'.$siswa->path_to_photo);
             DB::commit();
         } catch (\Exception $ex) {
             DB::rollback();
-            dump('gagal euy');
-            dump($ex);
             return redirect()->route('siswa.index')
             ->with('error_message', $ex);
         }
