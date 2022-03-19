@@ -226,11 +226,11 @@ return [
 
     'menu' => [
         // Navbar items:
-        [
-            'type'         => 'navbar-search',
-            'text'         => 'search',
-            'topnav_right' => true,
-        ],
+        // [
+        //     'type'         => 'navbar-search',
+        //     'text'         => 'search',
+        //     'topnav_right' => true,
+        // ],
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
@@ -264,10 +264,10 @@ return [
         //     'url'  => 'admin/settings',
         //     'icon' => 'fas fa-fw fa-lock',
         // ],
-        [
-            'header' => 'siswa',
-            'classes' => 'text-uppercase'
-        ],
+        // [
+        //     'header' => 'siswa',
+        //     'classes' => 'text-uppercase'
+        // ],
         [
             'text'  => 'Data Siswa',
             'url'   => 'siswa',

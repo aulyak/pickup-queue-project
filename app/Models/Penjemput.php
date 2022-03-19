@@ -4,16 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Penjemput extends Model
+class Penjemput extends Authenticatable
 {
-    use HasFactory;
+  use HasFactory;
+  use HasApiTokens;
 
-    protected $table = "penjemput";
-    protected $primaryKey = "id";
+  protected $table = "penjemput";
+  protected $primaryKey = "id";
 
-    public function siswa()
-    {
-        return $this->belongsTo(Siswa::class, 'nik_siswa');
-    }
+  public function siswa()
+  {
+    return $this->belongsTo(Siswa::class, 'nik_siswa');
+  }
 }
