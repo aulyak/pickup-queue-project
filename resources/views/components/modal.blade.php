@@ -33,9 +33,9 @@
                                 value="{{ $namaSiswa }}">
                         </div>
                         <div class="form-group">
-                            <label for="inputNIK">NIK Siswa</label>
-                            <input disabled type="text" class="form-control @error('nik_siswa') is-invalid @enderror"
-                                id="inputNIK" value="{{ $nikSiswa }}">
+                            <label for="inputNIS">NIS Siswa</label>
+                            <input disabled type="text" class="form-control @error('nis') is-invalid @enderror"
+                                id="inputNIS" value="{{ $nikSiswa }}">
                         </div>
                         <div class="form-group">
                             <label for="inputNama">Nama Penjemput</label>

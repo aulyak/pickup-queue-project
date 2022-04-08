@@ -30,9 +30,9 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="inputNIK">NIK</label>
-                    <input type="text" class="form-control @error('nik') is-invalid @enderror" name="nik" id="inputNIK"
-                        placeholder="NIK" value="{{ old('nik') }}">
+                    <label for="inputNIS">NIS</label>
+                    <input type="text" class="form-control @error('nis') is-invalid @enderror" name="nis" id="inputNIS"
+                        placeholder="NIS" value="{{ old('nis') }}">
                 </div>
                 <div class="form-group">
                     <label for="inputNama">Nama Lengkap</label>

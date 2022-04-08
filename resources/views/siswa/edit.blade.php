@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Siswa: ' . $siswa->nik)
+@section('title', 'Edit Siswa: ' . $siswa->nis)
 
 @section('content_header')
 
@@ -31,9 +31,9 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label for="inputNIK">NIK</label>
-                    <input disabled type="text" class="form-control @error('nik') is-invalid @enderror" name="nik"
-                        id="inputNIK" placeholder="NIK" value="{{ $siswa->nik }}">
+                    <label for="inputNIS">NIS</label>
+                    <input disabled type="text" class="form-control @error('nis') is-invalid @enderror" name="nis"
+                        id="inputNIS" placeholder="NIS" value="{{ $siswa->nis }}">
                 </div>
                 <div class="form-group">
                     <label for="inputNama">Nama Lengkap</label>

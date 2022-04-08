@@ -17,6 +17,6 @@ class Penjemput extends Authenticatable
 
   public function siswa()
   {
-    return $this->belongsTo(Siswa::class, 'nik_siswa');
+    return $this->belongsTo(Siswa::class, 'nis');
   }
 }

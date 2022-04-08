@@ -1,7 +1,6 @@
 <?php
 
-use App\Http\Controllers\API\AuthController;
-use App\Http\Controllers\API\TesController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/login', [AuthController::class, 'login']);
+Route::resource('penjemputan', 'PenjemputanController');
+
+Route::post('/login', 'AuthController@login');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
-  Route::get('/tes', [TesController::class, 'tes']);
+  Route::post('/logout', 'AuthController@logout');
+  Route::post('/confirm-at-location/{penjemput}', 'PenjemputController@confirmAtLocation');
 });

@@ -37,7 +37,7 @@
                                                 <tr role="row">
                                                     <th></th>
                                                     <th>No.</th>
-                                                    <th>NIK</th>
+                                                    <th>NIS</th>
                                                     <th>Nama</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -49,7 +49,7 @@
                                                             <i type="button" class="fa fa-plus-circle"></i>
                                                         </td>
                                                         <td>{{ $key + 1 }}</td>
-                                                        <td>{{ $siswa->nik }}</td>
+                                                        <td>{{ $siswa->nis }}</td>
                                                         <td>{{ ucwords($siswa->nama_siswa) }}</td>
                                                         <td>
                                                             <div class="btn-group">

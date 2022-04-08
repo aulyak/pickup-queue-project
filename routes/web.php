@@ -23,23 +23,22 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+  Route::get('/dashboard', function () {
+    return view('dashboard');
+  })->name('dashboard');
 
-    Route::get('/', function () {
-        return redirect()->route('dashboard');
-    });
+  Route::get('/', function () {
+    return redirect()->route('siswa.index');
+  });
 
-    Route::get('/home', function () {
-        return redirect()->route('dashboard');
-    });
+  Route::get('/home', function () {
+    return redirect()->route('siswa.index');
+  });
 
-    Route::resource('siswa', SiswaController::class);
-    Route::resource('penjemput', PenjemputController::class);
-    Route::delete('penjemput/{penjemput}/redirect/{siswa}', 'PenjemputController@destroyRedirect')->name('penjemput.destroy.redirect');
-    Route::put('penjemput/byid/{id}', 'PenjemputController@updateById')->name('penjemput.update.byId');
+  Route::resource('siswa', 'SiswaController');
+  Route::resource('penjemput', 'PenjemputController');
+  Route::delete('penjemput/{penjemput}/redirect/{siswa}', 'PenjemputController@destroyRedirect')->name('penjemput.destroy.redirect');
+  Route::put('penjemput/byid/{id}', 'PenjemputController@updateById')->name('penjemput.update.byId');
 
-    // More routes here
-
+  Route::view('/absen', 'absen');
 });

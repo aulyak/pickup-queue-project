@@ -8,7 +8,7 @@ function encodeURIComponent($str)
 
 @extends('adminlte::page')
 
-@section('title', 'Detail Siswa: ' . $siswa->nik)
+@section('title', 'Detail Siswa: ' . $siswa->nis)
 
 @section('content_header')
 
@@ -41,11 +41,11 @@ function encodeURIComponent($str)
 
             <h3 class="profile-username text-center">{{ ucwords($siswa->nama_siswa) }}</h3>
 
-            {{-- <p class="text-muted text-center">{{ $siswa->nik }}</p> --}}
+            {{-- <p class="text-muted text-center">{{ $siswa->nis }}</p> --}}
 
             <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item">
-                    <b>NIK</b> <a class="float-right">{{ $siswa->nik }}</a>
+                    <b>NIS</b> <a class="float-right">{{ $siswa->nis }}</a>
                 </li>
                 <li class="list-group-item">
                     <b>Created At</b> <a class="float-right">{{ $siswa->created_at->toDayDateTimeString() }}
@@ -84,7 +84,7 @@ function encodeURIComponent($str)
                             <thead>
                                 <tr role="row">
                                     <th>No.</th>
-                                    <th>NIK SISWA</th>
+                                    <th>NIS SISWA</th>
                                     <th>Nama</th>
                                     <th>No. Penjemput</th>
                                     <th>Created At</th>
@@ -96,7 +96,7 @@ function encodeURIComponent($str)
                                 @foreach ($data_penjemput as $key => $penjemput)
                                     <tr>
                                         <td>{{ $penjemput->id }}</td>
-                                        <td>{{ $penjemput->nik_siswa }}</td>
+                                        <td>{{ $penjemput->nis }}</td>
                                         <td>{{ ucwords($penjemput->nama_penjemput) }}</td>
                                         <td>{{ $penjemput->no_penjemput }}</td>
                                         <td>{{ $penjemput->created_at }}</td>
@@ -125,8 +125,8 @@ function encodeURIComponent($str)
         </div>
     </div>
 
-    <x-modal :namaSiswa="$siswa->nama_siswa" :nikSiswa="$siswa->nik" :type="'create'"></x-modal>
-    <x-modal :namaSiswa="$siswa->nama_siswa" :nikSiswa="$siswa->nik" :type="'edit'"></x-modal>
+    <x-modal :namaSiswa="$siswa->nama_siswa" :nikSiswa="$siswa->nis" :type="'create'"></x-modal>
+    <x-modal :namaSiswa="$siswa->nama_siswa" :nikSiswa="$siswa->nis" :type="'edit'"></x-modal>
 
 @stop
 
@@ -205,7 +205,7 @@ function encodeURIComponent($str)
                     penjemput
                 });
 
-                var nik_siswa = $(modal).find('#inputNIK').val();
+                var nis = $(modal).find('#inputNIS').val();
                 var nama_penjemput = $(modal).find("#inputNama").val();
                 var no_penjemput = $(modal).find("#inputTelpon").val();
                 var penjemputId = penjemput.id;
@@ -215,7 +215,7 @@ function encodeURIComponent($str)
                 var url = type === 'create' ?
                     "{{ route('penjemput.store') }}" : editUrl;
                 console.log({
-                    nik_siswa,
+                    nis,
                     nama_penjemput,
                     no_penjemput
                 });
@@ -224,7 +224,7 @@ function encodeURIComponent($str)
                     type: httpMethod,
                     url,
                     data: {
-                        nik_siswa,
+                        nis,
                         nama_penjemput,
                         no_penjemput
                     },
