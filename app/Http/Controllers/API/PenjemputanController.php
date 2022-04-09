@@ -8,6 +8,9 @@ use App\Models\Siswa;
 use App\Models\Penjemput;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+
+use function PHPUnit\Framework\isNull;
 
 class PenjemputanController extends BaseController
 {
@@ -45,11 +48,36 @@ class PenjemputanController extends BaseController
 
     if ($validator->fails()) return $this->handleError('Failed.', ['error' => $validator->getMessageBag()->toArray()], 400);
 
-    $penjemputan = new Penjemputan;
-    $penjemputan->nis = $request->input('nis');
-    $penjemputan->save();
+    $nis = $request->input('nis');
+    $siswa = Siswa::find($nis);
 
-    return $this->handleResponse($penjemputan, 'sukses');
+    if (is_null($siswa)) return $this->handleError('Failed.', 'No matching NIS', 500);
+
+    $penjemputan = Penjemputan::where('nis', '=', $nis)->whereDate('created_at', Carbon::today())->get()->first();
+
+    if (!is_null($penjemputan)) return $this->handleError('Failed.', 'already FR', 500);
+
+    $siswa_with_penjemput = $siswa->with(['penjemput' => function ($q) {
+      $q->where('ready_status', '=', 'ready');
+    }])->first();
+
+    $penjemput = $siswa_with_penjemput->penjemput->first();
+
+    $new_penjemputan = new Penjemputan;
+
+    if (empty($penjemput)) {
+      $new_penjemputan->nis = $nis;
+      $new_penjemputan->save();
+
+      return $this->handleResponse($new_penjemputan, 'Penjemputan inserted. Status = waiting');
+    }
+
+    $new_penjemputan->nis = $nis;
+    $new_penjemputan->status_penjemputan = 'driver-ready';
+    $new_penjemputan->assigned_penjemput = $penjemput->id;
+    $new_penjemputan->save();
+
+    return $this->handleResponse($new_penjemputan, 'Penjemputan inserted. Status = driver-ready');
   }
 
   /**

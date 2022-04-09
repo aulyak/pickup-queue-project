@@ -14,7 +14,9 @@ class PenjemputanController extends Controller
    */
   public function index()
   {
-    //
+    $data = Penjemputan::with('penjemput')->get();
+
+    return view('penjemputan.index', compact('data'));
   }
 
   /**

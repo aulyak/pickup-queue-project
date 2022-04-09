@@ -37,8 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
   Route::resource('siswa', 'SiswaController');
   Route::resource('penjemput', 'PenjemputController');
+  Route::resource('penjemputan', 'PenjemputanController');
   Route::delete('penjemput/{penjemput}/redirect/{siswa}', 'PenjemputController@destroyRedirect')->name('penjemput.destroy.redirect');
   Route::put('penjemput/byid/{id}', 'PenjemputController@updateById')->name('penjemput.update.byId');
-
-  Route::view('/absen', 'absen');
 });

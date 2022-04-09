@@ -19,4 +19,9 @@ class Penjemput extends Authenticatable
   {
     return $this->belongsTo(Siswa::class, 'nis');
   }
+
+  public function penjemputan()
+  {
+    return $this->hasMany(Penjemputan::class, 'assigned_penjemput', 'id');
+  }
 }

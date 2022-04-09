@@ -21,4 +21,6 @@ Route::post('/login', 'AuthController@login');
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::post('/logout', 'AuthController@logout');
   Route::post('/confirm-at-location/{penjemput}', 'PenjemputController@confirmAtLocation');
+  Route::post('/confirm-pickup/{penjemput}', 'PenjemputController@confirmPickup');
+  Route::post('/get-penjemputan-in-process/{penjemput}', 'PenjemputController@getPenjemputanInProcess');
 });

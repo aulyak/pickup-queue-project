@@ -275,7 +275,7 @@ return [
     ],
     [
       'text'  => 'Data Penjemputan',
-      'url'   => 'absen',
+      'url'   => 'penjemputan',
       'icon' => 'fas fa-solid fa-clock'
     ],
   ],
