@@ -57,11 +57,7 @@ class PenjemputanController extends BaseController
 
     if (!is_null($penjemputan)) return $this->handleError('Failed.', 'already FR', 500);
 
-    $siswa_with_penjemput = $siswa->with(['penjemput' => function ($q) {
-      $q->where('ready_status', '=', 'ready');
-    }])->first();
-
-    $penjemput = $siswa_with_penjemput->penjemput->first();
+    $penjemput = $siswa->penjemput->where('ready_status', '=', 'ready')->first();
 
     $new_penjemputan = new Penjemputan;
 

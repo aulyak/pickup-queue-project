@@ -135,7 +135,7 @@ class PenjemputController extends BaseControoller
   }
 
   /**
-   * Confirm Driver Arrival on Location
+   * Get penjemputan in process corresponding to current Penjemput
    * 
    * @param  \Illuminate\Http\Request  $request
    * @param  $id
@@ -144,11 +144,74 @@ class PenjemputController extends BaseControoller
   public function getPenjemputanInProcess(Penjemput $penjemput)
   {
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
-      ->where('status_penjemputan', '=', 'driver-ready')
+      ->where('status_penjemputan', '=', 'in-process')
       ->whereDate('created_at', Carbon::today())->first();
 
     if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 500);
 
     return $this->handleResponse($penjemputan, 'Penjemputan retrieved');
+  }
+
+  /**
+   * Get QR Code
+   * 
+   * @param  \Illuminate\Http\Request  $request
+   * @param  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function getQRCode(Penjemput $penjemput)
+  {
+    $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
+      ->where('status_penjemputan', '=', 'in-process')
+      ->whereDate('created_at', Carbon::today())->first();
+
+    if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 500);
+
+    $createdTime = $penjemputan->created_at;
+    $nis = $penjemputan->nis;
+    $assignedPenjemput = $penjemputan->assigned_penjemput;
+    $idPenjemputan = $penjemputan->id;
+
+    $qrCode = "" . $createdTime . "_" . $nis . "_" . $assignedPenjemput . "_" . $idPenjemputan;
+
+    return $this->handleResponse($qrCode, 'QR Code retrieved');
+  }
+
+  /**
+   * Set Penjemput firebase token
+   * 
+   * @param  \Illuminate\Http\Request  $request
+   * @param  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function setFirebaseToken(Penjemput $penjemput, Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'firebase_token' => 'required',
+    ]);
+
+    if ($validator->fails()) return $this->handleError('Failed.', ['error' => $validator->getMessageBag()->toArray()], 400);
+
+    $penjemput->firebase_token = $request->firebase_token;
+
+    $penjemput->save();
+
+    return $this->handleResponse($penjemput, 'Firebase token has been updated.');
+  }
+
+  /**
+   * Get Penjemput firebase token
+   * 
+   * @param  \Illuminate\Http\Request  $request
+   * @param  $id
+   * @return \Illuminate\Http\Response
+   */
+  public function getFirebaseToken(Penjemput $penjemput)
+  {
+    $firebaseToken = $penjemput->firebase_token;
+
+    if (!$firebaseToken) return $this->handleError('Failed.', 'No token found', 500);
+
+    return $this->handleResponse($firebaseToken, 'Token retrieved');
   }
 }
