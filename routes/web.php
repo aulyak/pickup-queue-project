@@ -31,6 +31,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     return redirect()->route('siswa.index');
   });
 
+  Route::get('/register', function () {
+    return redirect()->route('siswa.index');
+  });
+
   Route::get('/home', function () {
     return redirect()->route('siswa.index');
   });

@@ -14,7 +14,7 @@ return [
     |
     */
 
-  'title' => 'Pickup Queue',
+  'title' => 'ABC Kids',
   'title_prefix' => '',
   'title_postfix' => '',
 
@@ -45,7 +45,7 @@ return [
     |
     */
 
-  'logo' => '<b>Project</b>Q',
+  'logo' => '<b>ABC Kids</b>',
   'logo_img' => 'vendor/adminlte/dist/img/school.png',
   'logo_img_class' => 'brand-image img-circle elevation-3',
   'logo_img_xl' => null,

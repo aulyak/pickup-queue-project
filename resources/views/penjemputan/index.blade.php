@@ -38,6 +38,8 @@
                                                     <th>Assigned Penjemput</th>
                                                     <th>ID Penjemput</th>
                                                     <th>Status Penjemputan</th>
+                                                    <th>Tanggal Scan</th>
+                                                    <th>Last Updated at</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -51,6 +53,11 @@
                                                         </td>
                                                         <td>{{ $penjemputan->assigned_penjemput }}</td>
                                                         <td>{{ $penjemputan->status_penjemputan }}</td>
+                                                        <td>{{ $penjemputan->created_at->toDayDateTimeString() }}
+                                                            ({{ $penjemputan->created_at->diffForHumans() }})
+                                                        </td>
+                                                        <td>{{ $penjemputan->updated_at->toDayDateTimeString() }}
+                                                            ({{ $penjemputan->updated_at->diffForHumans() }})</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>
