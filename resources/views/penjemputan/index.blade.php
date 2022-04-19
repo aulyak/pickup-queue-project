@@ -100,6 +100,7 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+                "scrollX": true,
             });
         });
     </script>

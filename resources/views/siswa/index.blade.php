@@ -166,6 +166,7 @@
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+                "scrollX": true,
             });
 
             // Add event listener for opening and closing details

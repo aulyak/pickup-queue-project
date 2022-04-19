@@ -45,7 +45,7 @@ class SiswaController extends Controller
     $request->validate([
       'nis' => 'required|unique:siswa|numeric',
       'nama_siswa' => 'required',
-      'foto_siswa' => 'required|mimes:jpg, jpeg, png'
+      'foto_siswa' => 'mimes:jpg, jpeg, png'
     ]);
 
     $siswa->nis = $request->input('nis');

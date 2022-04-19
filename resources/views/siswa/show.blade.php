@@ -35,13 +35,11 @@ function encodeURIComponent($str)
         </div>
         <div class="card-body box-profile">
             <div class="text-center">
-                <img class="img-thumbnail img-fluid" src="{{ asset('storage/foto_siswa/' . $siswa->path_to_photo) }}"
-                    alt="User profile picture">
+                <img class="img-thumbnail img-fluid"
+                    src="{{ $siswa->path_to_photo ? asset('storage/foto_siswa/' . $siswa->path_to_photo) : asset('image/default-pp.png') }}">
             </div>
 
             <h3 class="profile-username text-center">{{ ucwords($siswa->nama_siswa) }}</h3>
-
-            {{-- <p class="text-muted text-center">{{ $siswa->nis }}</p> --}}
 
             <ul class="list-group list-group-unbordered mb-3">
                 <li class="list-group-item">
