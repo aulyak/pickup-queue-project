@@ -107,10 +107,10 @@ class PenjemputController extends BaseControoller
       $penjemputan->assigned_penjemput = $penjemput->id;
       $penjemputan->save();
 
-      return $this->handleResponse($penjemputan, 'Your status has been updated and you\'re assigned to penjemputan.');
+      return $this->handleResponse($penjemputan, 'Status has been updated and driver\'s assigned to penjemputan.');
     }
 
-    return $this->handleResponse($penjemput, 'Your status has been updated.');
+    return $this->handleResponse($penjemput, 'Status has been updated.');
   }
 
   /**

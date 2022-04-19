@@ -16,10 +16,26 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="float-left">Data Siswa</h2>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h2 class="float-left">Data Siswa</h2>
+                                </div>
+                                <div class="col-sm">
+                                    <a type="button" class="btn btn-primary float-right"
+                                        href="{{ route('siswa.create') }}">
+                                        <i class="fa fa-plus-circle"></i>
+                                        Tambah Siswa
+                                    </a>
+                                    {{-- <a type="button" style="margin-right:5px" class="btn btn-primary float-right">
+                                        <i class="fa fa-filter"></i>
+                                        Filter
+                                    </a> --}}
+                                </div>
+                            </div>
+                            {{-- <h2 class="float-left">Data Siswa</h2>
                             <a type="button" class="btn btn-primary float-right" href="{{ route('siswa.create') }}"><i
                                     class="fa fa-plus-circle"></i> Tambah
-                                Siswa</a>
+                                Siswa</a> --}}
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -146,7 +162,7 @@
                 ],
                 "paging": true,
                 "lengthChange": false,
-                "searching": false,
+                "searching": true,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,

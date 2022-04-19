@@ -5,7 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Penjemputan;
 use App\Models\Siswa;
-use App\Models\Penjemput;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -119,5 +118,48 @@ class PenjemputanController extends BaseController
   public function destroy(Penjemputan $penjemputan)
   {
     //
+  }
+
+  /**
+   * Advance Status
+   * 
+   * @param  \Illuminate\Http\Request  $request
+   * @param  $qrCode
+   * @return \Illuminate\Http\Response
+   */
+  public function advanceStatus(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'qr_code' => 'required',
+    ]);
+
+    if ($validator->fails()) return $this->handleError('Failed.', ['error' => $validator->getMessageBag()->toArray()], 400);
+    $qrCode = $request->qr_code;
+
+    $splitQr = explode('_', $qrCode);
+    $createdAt = $splitQr[0];
+    $nis = $splitQr[1];
+    $assignedPenjemput = $splitQr[2];
+    $idPenjemputan = $splitQr[3];
+
+    $penjemputan = Penjemputan::where([
+      ['nis', '=', $nis],
+      ['assigned_penjemput', '=', $assignedPenjemput],
+      ['id', '=', $idPenjemputan],
+    ])->whereDate('created_at', Carbon::parse($createdAt))->get()->first();
+
+    if (!$penjemputan) return $this->handleError('Failed.', 'Wrong QR Code', 500);
+
+    if ($penjemputan->status_penjemputan == 'in-process') {
+      $penjemputan->status_penjemputan = 'driver-in';
+    } else if ($penjemputan->status_penjemputan == 'driver-in') {
+      $penjemputan->status_penjemputan = 'finished';
+    } else {
+      return $this->handleError('Failed.', 'Status not allowed to advance', 500);
+    }
+
+    $penjemputan->save();
+
+    return $this->handleResponse($penjemputan, 'Status has been updated!');
   }
 }

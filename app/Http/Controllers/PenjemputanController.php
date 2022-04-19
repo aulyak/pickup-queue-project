@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penjemputan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PenjemputanController extends Controller
 {
@@ -14,7 +15,7 @@ class PenjemputanController extends Controller
    */
   public function index()
   {
-    $data = Penjemputan::with('penjemput')->get();
+    $data = Penjemputan::with('penjemput')->whereDate('created_at', Carbon::today())->get();
 
     return view('penjemputan.index', compact('data'));
   }

@@ -20,16 +20,16 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div id="table_siswa_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div id="table_penjemputan_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6"></div>
                                     <div class="col-sm-12 col-md-6"></div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <table id="table_siswa"
+                                        <table id="table_penjemputan"
                                             class="table table-bordered table-hover dataTable dtr-inline" role="grid"
-                                            aria-describedby="table_siswa_info">
+                                            aria-describedby="table_penjemputan_info">
                                             <thead>
                                                 <tr role="row">
                                                     <th>No.</th>
@@ -79,5 +79,29 @@
 @stop
 
 @section('css')
+
+@stop
+
+@section('js')
+
+    <script>
+        $(document).ready(function() {
+            var table = $('#table_penjemputan').DataTable({
+                // columnDefs: [{
+                //     bSortable: false,
+                //     targets: [0, 1, 4]
+                // }],
+                // order: [
+                //     [2, 'asc']
+                // ],
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
 
 @stop
