@@ -17,6 +17,7 @@ class CreateTblSiswa extends Migration
       $table->string('nis', 30)->primary()->nullable(false);
       $table->text('nama_siswa')->nullable(false);
       $table->text('path_to_photo')->nullable(true);
+      $table->mediumText('embedding')->nullable(true);
       $table->dateTime('created_at');
       $table->dateTime('updated_at');
     });

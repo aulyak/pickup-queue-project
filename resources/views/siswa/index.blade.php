@@ -4,7 +4,7 @@
 
 @section('content_header')
 
-    Manage Siswa
+    &nbsp
 
 @stop
 

@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('penjemputan', 'PenjemputanController');
-Route::resource('siswa', 'SiswaController');
 Route::post('/penjemputan/advance-status', 'PenjemputanController@advanceStatus');
+
+Route::resource('siswa', 'SiswaController');
+Route::post('/siswa/updateEmbeddingByNis', 'SiswaController@updateEmbeddingByNis');
 
 Route::post('/login', 'AuthController@login');
 

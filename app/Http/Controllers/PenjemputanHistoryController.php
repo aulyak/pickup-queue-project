@@ -8,79 +8,81 @@ use App\Http\Requests\UpdatePenjemputanHistoryRequest;
 
 class PenjemputanHistoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+  /**
+   * Display a listing of the resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function index()
+  {
+    $data = PenjemputanHistory::with('penjemput')->get();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    return view('penjemputan_history.index', compact('data'));
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePenjemputanHistoryRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StorePenjemputanHistoryRequest $request)
-    {
-        //
-    }
+  /**
+   * Show the form for creating a new resource.
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create()
+  {
+    //
+  }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
-     * @return \Illuminate\Http\Response
-     */
-    public function show(PenjemputanHistory $penjemputanHistory)
-    {
-        //
-    }
+  /**
+   * Store a newly created resource in storage.
+   *
+   * @param  \App\Http\Requests\StorePenjemputanHistoryRequest  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function store(StorePenjemputanHistoryRequest $request)
+  {
+    //
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(PenjemputanHistory $penjemputanHistory)
-    {
-        //
-    }
+  /**
+   * Display the specified resource.
+   *
+   * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
+   * @return \Illuminate\Http\Response
+   */
+  public function show(PenjemputanHistory $penjemputanHistory)
+  {
+    //
+  }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdatePenjemputanHistoryRequest  $request
-     * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdatePenjemputanHistoryRequest $request, PenjemputanHistory $penjemputanHistory)
-    {
-        //
-    }
+  /**
+   * Show the form for editing the specified resource.
+   *
+   * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
+   * @return \Illuminate\Http\Response
+   */
+  public function edit(PenjemputanHistory $penjemputanHistory)
+  {
+    //
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PenjemputanHistory $penjemputanHistory)
-    {
-        //
-    }
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  \App\Http\Requests\UpdatePenjemputanHistoryRequest  $request
+   * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
+   * @return \Illuminate\Http\Response
+   */
+  public function update(UpdatePenjemputanHistoryRequest $request, PenjemputanHistory $penjemputanHistory)
+  {
+    //
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  \App\Models\PenjemputanHistory  $penjemputanHistory
+   * @return \Illuminate\Http\Response
+   */
+  public function destroy(PenjemputanHistory $penjemputanHistory)
+  {
+    //
+  }
 }

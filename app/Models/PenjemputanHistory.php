@@ -10,4 +10,14 @@ class PenjemputanHistory extends Model
   use HasFactory;
 
   protected $table = "penjemputan_history";
+
+  public function siswa()
+  {
+    return $this->belongsTo(Siswa::class, 'nis');
+  }
+
+  public function penjemput()
+  {
+    return $this->belongsTo(Penjemput::class, 'assigned_penjemput');
+  }
 }

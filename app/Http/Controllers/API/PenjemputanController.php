@@ -59,21 +59,21 @@ class PenjemputanController extends BaseController
 
     $penjemput = $siswa->penjemput->where('ready_status', '=', 'ready')->first();
 
-    $new_penjemputan = new Penjemputan;
+    $newPenjemputan = new Penjemputan;
 
     if (empty($penjemput)) {
-      $new_penjemputan->nis = $nis;
-      $new_penjemputan->save();
+      $newPenjemputan->nis = $nis;
+      $newPenjemputan->save();
 
-      return $this->handleResponse($new_penjemputan, 'Penjemputan inserted. Status = waiting');
+      return $this->handleResponse($newPenjemputan, 'Penjemputan inserted. Status = waiting');
     }
 
-    $new_penjemputan->nis = $nis;
-    $new_penjemputan->status_penjemputan = 'driver-ready';
-    $new_penjemputan->assigned_penjemput = $penjemput->id;
-    $new_penjemputan->save();
+    $newPenjemputan->nis = $nis;
+    $newPenjemputan->status_penjemputan = 'driver-ready';
+    $newPenjemputan->assigned_penjemput = $penjemput->id;
+    $newPenjemputan->save();
 
-    return $this->handleResponse($new_penjemputan, 'Penjemputan inserted. Status = driver-ready');
+    return $this->handleResponse($newPenjemputan, 'Penjemputan inserted. Status = driver-ready');
   }
 
   /**

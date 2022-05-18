@@ -271,12 +271,17 @@ return [
     [
       'text'  => 'Data Siswa',
       'url'   => 'siswa',
-      'icon' => 'fas fa-fw fa-list'
+      'icon' => 'fas fa-fw fa-users'
     ],
     [
       'text'  => 'Data Penjemputan',
       'url'   => 'penjemputan',
-      'icon' => 'fas fa-solid fa-clock'
+      'icon' => 'fas fa-solid fa-list'
+    ],
+    [
+      'text'  => 'History Penjemputan',
+      'url'   => 'penjemputan_history',
+      'icon' => 'fas fa-solid fa-history'
     ],
   ],
 

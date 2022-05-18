@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Penjemputan')
+@section('title', 'History Penjemputan')
 
 @section('content_header')
 
@@ -16,7 +16,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="float-left">Data Penjemputan</h2>
+                            <h2 class="float-left">Penjemputan History</h2>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -43,21 +43,21 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($data as $key => $penjemputan)
+                                                @foreach ($data as $key => $penjemputanHistory)
                                                     <tr>
                                                         <td>{{ $key + 1 }}</td>
-                                                        <td>{{ $penjemputan->siswa->nis }}</td>
-                                                        <td>{{ $penjemputan->siswa->nama_siswa }}</td>
+                                                        <td>{{ $penjemputanHistory->siswa->nis }}</td>
+                                                        <td>{{ $penjemputanHistory->siswa->nama_siswa }}</td>
                                                         <td>
-                                                            {{ $penjemputan->penjemput ? $penjemputan->penjemput->nama_penjemput : '-' }}
+                                                            {{ $penjemputanHistory->penjemput ? $penjemputanHistory->penjemput->nama_penjemput : '-' }}
                                                         </td>
-                                                        <td>{{ $penjemputan->assigned_penjemput }}</td>
-                                                        <td>{{ $penjemputan->status_penjemputan }}</td>
-                                                        <td>{{ $penjemputan->created_at->toDayDateTimeString() }}
-                                                            ({{ $penjemputan->created_at->diffForHumans() }})
+                                                        <td>{{ $penjemputanHistory->assigned_penjemput }}</td>
+                                                        <td>{{ $penjemputanHistory->status_penjemputan }}</td>
+                                                        <td>{{ $penjemputanHistory->created_at->toDayDateTimeString() }}
+                                                            ({{ $penjemputanHistory->created_at->diffForHumans() }})
                                                         </td>
-                                                        <td>{{ $penjemputan->updated_at->toDayDateTimeString() }}
-                                                            ({{ $penjemputan->updated_at->diffForHumans() }})</td>
+                                                        <td>{{ $penjemputanHistory->updated_at->toDayDateTimeString() }}
+                                                            ({{ $penjemputanHistory->updated_at->diffForHumans() }})</td>
                                                     </tr>
                                                 @endforeach
                                             </tbody>

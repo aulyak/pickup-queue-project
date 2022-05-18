@@ -95,11 +95,16 @@ class PenjemputController extends BaseControoller
    */
   public function confirmAtLocation(Penjemput $penjemput)
   {
+    $correspondingPenjemputId = auth()->user()->id;
+
+    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+
     $penjemput->ready_status = 'ready';
 
     $penjemput->save();
 
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
+      ->where('status_penjemputan', 'waiting')
       ->whereDate('created_at', Carbon::today())->first();
 
     if ($penjemputan) {
@@ -122,6 +127,10 @@ class PenjemputController extends BaseControoller
    */
   public function confirmPickup(Penjemput $penjemput)
   {
+    $correspondingPenjemputId = auth()->user()->id;
+
+    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
       ->where('status_penjemputan', '=', 'driver-ready')
       ->whereDate('created_at', Carbon::today())->first();
@@ -143,6 +152,10 @@ class PenjemputController extends BaseControoller
    */
   public function getPenjemputanInProcess(Penjemput $penjemput)
   {
+    $correspondingPenjemputId = auth()->user()->id;
+
+    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
       ->where('status_penjemputan', '=', 'in-process')
       ->whereDate('created_at', Carbon::today())->first();
@@ -161,6 +174,10 @@ class PenjemputController extends BaseControoller
    */
   public function getQRCode(Penjemput $penjemput)
   {
+    $correspondingPenjemputId = auth()->user()->id;
+
+    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
       ->where('status_penjemputan', '=', 'in-process')
       ->whereDate('created_at', Carbon::today())->first();
@@ -186,6 +203,10 @@ class PenjemputController extends BaseControoller
    */
   public function setFirebaseToken(Penjemput $penjemput, Request $request)
   {
+    $correspondingPenjemputId = auth()->user()->id;
+
+    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+
     $validator = Validator::make($request->all(), [
       'firebase_token' => 'required',
     ]);
@@ -208,6 +229,10 @@ class PenjemputController extends BaseControoller
    */
   public function getFirebaseToken(Penjemput $penjemput)
   {
+    $correspondingPenjemputId = auth()->user()->id;
+
+    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+
     $firebaseToken = $penjemput->firebase_token;
 
     if (!$firebaseToken) return $this->handleError('Failed.', 'No token found', 500);

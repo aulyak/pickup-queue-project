@@ -80,8 +80,11 @@ class PenjemputanObserver
           ->whereIn('status_penjemputan', ['in-process', 'driver-in'])
           ->orderBy('created_at', 'ASC')
           ->first();
-        $firstQueue->status_penjemputan = 'in-process';
-        $firstQueue->save();
+
+        if ($firstQueue) {
+          $firstQueue->status_penjemputan = 'in-process';
+          $firstQueue->save();
+        }
       }
     }
   }
