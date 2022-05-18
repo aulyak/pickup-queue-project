@@ -10,6 +10,31 @@
 
 @section('content')
 
+    <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form method="post" action="/siswa/import_excel" enctype="multipart/form-data">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Import Excel</h5>
+                    </div>
+                    <div class="modal-body">
+
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <input type="file" name="file" required="required">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Import</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -18,11 +43,15 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-sm">
-                                    <h2 class="float-left">Data Siswa</h2>
+                                    <h2 class="text-left">Data Siswa</h2>
                                 </div>
-                                <div class="col-sm">
-                                    <a type="button" class="btn btn-primary float-right"
-                                        href="{{ route('siswa.create') }}">
+                                <div class="col-sm text-right">
+                                    <button type="button" class="btn btn-success" data-toggle="modal"
+                                        data-target="#importExcel" hidden>
+                                        <i class="fa fa-file-excel"></i>
+                                        Import
+                                    </button>
+                                    <a type="button" class="btn btn-primary" href="{{ route('siswa.create') }}">
                                         <i class="fa fa-plus-circle"></i>
                                         Tambah Siswa
                                     </a>
@@ -32,10 +61,6 @@
                                     </a> --}}
                                 </div>
                             </div>
-                            {{-- <h2 class="float-left">Data Siswa</h2>
-                            <a type="button" class="btn btn-primary float-right" href="{{ route('siswa.create') }}"><i
-                                    class="fa fa-plus-circle"></i> Tambah
-                                Siswa</a> --}}
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -155,7 +180,7 @@
             var table = $('#table_siswa').DataTable({
                 columnDefs: [{
                     bSortable: false,
-                    targets: [0, 1, 4]
+                    targets: [0, 4]
                 }],
                 order: [
                     [2, 'asc']

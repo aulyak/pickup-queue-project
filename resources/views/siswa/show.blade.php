@@ -263,6 +263,7 @@ function encodeURIComponent($str)
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
+                "scrollX": true,
             });
         });
     </script>

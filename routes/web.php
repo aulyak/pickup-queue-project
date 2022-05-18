@@ -39,6 +39,8 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     return redirect()->route('siswa.index');
   });
 
+  Route::post('/siswa/import_excel', 'SiswaController@import_excel');
+
   Route::resource('siswa', 'SiswaController');
   Route::resource('penjemput', 'PenjemputController');
   Route::resource('penjemputan', 'PenjemputanController');

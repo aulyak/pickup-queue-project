@@ -114,7 +114,7 @@ class PenjemputController extends BaseControoller
   }
 
   /**
-   * Confirm Driver Arrival on Location
+   * Confirm Driver Initiating Pickup
    * 
    * @param  \Illuminate\Http\Request  $request
    * @param  $id

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use App\Imports\SiswaImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SiswaController extends Controller
 {
@@ -155,5 +157,26 @@ class SiswaController extends Controller
 
     return redirect()->route('siswa.index')
       ->with('success_message', 'Siswa deleted successfully');
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   *
+   * @param  Request $request
+   * @return \Illuminate\Http\Response
+   */
+  public function import_excel(Request $request)
+  {
+    $this->validate($request, [
+      'file' => 'required|mimes:csv,xls,xlsx'
+    ]);
+
+    $file = $request->file('file');
+    $nama_file = rand() . $file->getClientOriginalName();
+    $file->move('file_siswa', $nama_file);
+    Excel::import(new SiswaImport, public_path('/file_siswa/' . $nama_file));
+
+    return redirect()->route('siswa.index')
+      ->with('success_message', 'Siswa data imported successfully.');
   }
 }

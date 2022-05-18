@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Penjemputan;
+use App\Models\Penjemput;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -154,6 +155,10 @@ class PenjemputanController extends BaseController
       $penjemputan->status_penjemputan = 'driver-in';
     } else if ($penjemputan->status_penjemputan == 'driver-in') {
       $penjemputan->status_penjemputan = 'finished';
+      $penjemput = Penjemput::find($assignedPenjemput);
+      $penjemput->ready_status = 'not_ready';
+
+      $penjemput->save();
     } else {
       return $this->handleError('Failed.', 'Status not allowed to advance', 500);
     }
