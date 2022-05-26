@@ -129,4 +129,25 @@ class SiswaController extends BaseController
 
     return $this->handleResponse($siswa, 'Siswa\'s embedding has been successfully updated.');
   }
+
+  public function registerSiswa(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'nis' => 'required|unique:siswa,nis',
+      'nama_siswa' => 'required',
+      'embedding' => 'required',
+    ]);
+
+    if ($validator->fails()) return $this->handleError('Failed.', ['error' => $validator->getMessageBag()->toArray()], 400);
+
+    $newSiswa = new Siswa;
+
+    $newSiswa->nis = $request->input('nis');
+    $newSiswa->nama_siswa = $request->input('nama_siswa');
+    $newSiswa->embedding = $request->input('embedding');
+
+    $newSiswa->save();
+
+    return $this->handleResponse($newSiswa, 'Siswa has been registered successfully');
+  }
 }

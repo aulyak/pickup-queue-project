@@ -149,7 +149,7 @@ class PenjemputanController extends BaseController
       ['id', '=', $idPenjemputan],
     ])->whereDate('created_at', Carbon::parse($createdAt))->get()->first();
 
-    if (!$penjemputan) return $this->handleError('Failed.', 'Wrong QR Code', 500);
+    if (!$penjemputan) return $this->handleError('Failed.', 'Wrong QR Code', 400);
 
     if ($penjemputan->status_penjemputan == 'in-process') {
       $penjemputan->status_penjemputan = 'driver-in';
@@ -160,7 +160,7 @@ class PenjemputanController extends BaseController
 
       $penjemput->save();
     } else {
-      return $this->handleError('Failed.', 'Status not allowed to advance', 500);
+      return $this->handleError('Failed.', 'Status not allowed to advance', 400);
     }
 
     $penjemputan->save();

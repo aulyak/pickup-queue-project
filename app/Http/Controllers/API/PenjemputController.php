@@ -178,11 +178,13 @@ class PenjemputController extends BaseControoller
 
     if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
 
+    if ($penjemput->ready_status != 'ready') return $this->handleError('Finished.', 'No penjemputan in process', 404);
+
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
-      ->where('status_penjemputan', '=', 'in-process')
+      ->whereIn('status_penjemputan', ['in-process', 'driver-in'])
       ->whereDate('created_at', Carbon::today())->first();
 
-    if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 500);
+    if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 404);
 
     $createdTime = $penjemputan->created_at;
     $nis = $penjemputan->nis;
