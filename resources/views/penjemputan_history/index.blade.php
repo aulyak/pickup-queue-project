@@ -20,6 +20,40 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
+                            <div id="fiter" class="col-sm-12">
+                                <form class="filter-date" method="GET" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <label class="control-label requiredField" for="startDate" /> Start Date
+                                        <div class="input-group date" data-provide="datepicker">
+                                            <input id="startDate" type="date" class="form-control" name="startDate"
+                                                value="{{ $startDatePicked }}">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                        <label class="control-label requiredField" for="endDate" /> End Date
+                                        <div class="input-group date" data-provide="datepicker">
+                                            <input id="endDate" type="date" class="form-control" name="endDate"
+                                                value="{{ $endDatePicked }}">
+                                            <div class="input-group-addon">
+                                                <span class="glyphicon glyphicon-th"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">&nbsp</div>
+                                    <div class="row">
+                                        <button style="margin-right:10px" type="submit" class="btn btn-primary"
+                                            formaction="{{ route('indexFilter') }}">Filter</button>
+                                        <a style="margin-right:10px" class="btn btn-primary"
+                                            href="{{ route('indexFilter') }}">Remove
+                                            Filter</a>
+                                        <button style="margin-right:10px" type="submit" class="btn btn-success"
+                                            formaction="{{ route('exportPenjemputanHistory') }}">Export</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <hr>
+
                             <div id="table_penjemputan_wrapper" class="dataTables_wrapper dt-bootstrap4">
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6"></div>
@@ -38,7 +72,7 @@
                                                     <th>Assigned Penjemput</th>
                                                     <th>ID Penjemput</th>
                                                     <th>Status Penjemputan</th>
-                                                    <th>Tanggal Scan</th>
+                                                    <th>Created At</th>
                                                     <th>Last Updated at</th>
                                                 </tr>
                                             </thead>
@@ -83,9 +117,20 @@
 @stop
 
 @section('js')
-
     <script>
         $(document).ready(function() {
+            $('.filter-date').submit(function(e) {
+                if ((!$('#startDate').val() && $('#endDate').val()) ||
+                    ($('#startDate').val() && !$('#endDate').val()) ||
+                    parseInt($('#startDate').val().replace(/-/g, '')) > parseInt($('#endDate').val()
+                        .replace(/-/g, ''))
+                ) {
+                    alert('wrong date');
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
             var table = $('#table_penjemputan').DataTable({
                 // columnDefs: [{
                 //     bSortable: false,

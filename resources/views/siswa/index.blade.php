@@ -47,7 +47,7 @@
                                 </div>
                                 <div class="col-sm text-right">
                                     <button type="button" class="btn btn-success" data-toggle="modal"
-                                        data-target="#importExcel" hidden>
+                                        data-target="#importExcel">
                                         <i class="fa fa-file-excel"></i>
                                         Import
                                     </button>
