@@ -13,8 +13,15 @@ class PushNotification
    */
   public static function sendNotification($device_token, $title, $body)
   {
-    $type = is_array($device_token) ? "to" : "registration_ids";
-    dump($type);
+    $type = !is_array($device_token) ? "to" : "registration_ids";
+
+    if (is_array($device_token)) {
+      $tokens = array_map(function ($array_item) {
+        return $array_item['firebase_token'];
+      }, $device_token);
+      json_encode($tokens);
+      $device_token = $tokens;
+    }
 
     $message = array(
       "title" => $title,
@@ -27,6 +34,7 @@ class PushNotification
       $type => $device_token,
       "notification" => $message
     ];
+
     $dataString = json_encode($data);
 
     $headers = [
@@ -44,7 +52,6 @@ class PushNotification
     curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
     $response = curl_exec($ch);
-    dump($response);
 
     curl_close($ch);
 

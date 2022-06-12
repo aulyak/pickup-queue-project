@@ -42,8 +42,8 @@ class PenjemputanObserver
       }
     }
 
-    $penjemput = Penjemput::where('nis', $retrieved->nis)->get();
-    PushNotification::sendNotification($penjemput->firebase_token, "Murid Siap Dijemput", "Murid telah siap untuk dijemput.");
+    $penjemput = Penjemput::where('nis', $retrieved->nis)->whereNotNull('firebase_token')->get()->toArray();
+    PushNotification::sendNotification($penjemput, "Murid Siap Dijemput", "Murid telah siap untuk dijemput.");
   }
 
   /**
