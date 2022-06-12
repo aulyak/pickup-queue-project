@@ -41,6 +41,9 @@ class PenjemputanObserver
         $penjemputan->save();
       }
     }
+
+    $penjemput = Penjemput::where('nis', $retrieved->nis)->get();
+    PushNotification::sendNotification($penjemput->firebase_token, "Murid Siap Dijemput", "Murid telah siap untuk dijemput.");
   }
 
   /**
@@ -51,8 +54,6 @@ class PenjemputanObserver
    */
   public function updated(Penjemputan $penjemputan)
   {
-    //
-
     $penjemputanHistory = new PenjemputanHistory;
     $penjemputanHistory->id_penjemputan = $penjemputan->id;
     $penjemputanHistory->nis = $penjemputan->nis;
@@ -64,6 +65,10 @@ class PenjemputanObserver
     if ($penjemputan->status_penjemputan == 'driver-ready') {
       $dataPenjemputan = Penjemputan::whereDate('created_at', Carbon::today())->whereIn('status_penjemputan', ['in-process', 'driver-in'])->get();
       $numberOfQueues = $dataPenjemputan->count();
+      $penjemput = Penjemput::find($penjemputan->assigned_penjemput);
+      if ($penjemput) {
+        PushNotification::sendNotification($penjemput->firebase_token, "Murid Siap Dijemput", "Murid telah siap untuk dijemput.");
+      }
 
       if ($numberOfQueues < $this->queueLimit) {
         $penjemputan->status_penjemputan = 'in-process';
@@ -71,11 +76,9 @@ class PenjemputanObserver
       }
     }
 
-    // 
     if ($penjemputan->status_penjemputan == 'in-process') {
-      // hit firebase
       $penjemput = Penjemput::find($penjemputan->assigned_penjemput);
-      PushNotification::sendNotification($penjemput->firebase_token);
+      PushNotification::sendNotification($penjemput->firebase_token, "Murid Siap Dijemput", "Silahkan masuk dengan melakukan scan QR Code ini");
     }
 
     if ($penjemputan->status_penjemputan == 'finished') {

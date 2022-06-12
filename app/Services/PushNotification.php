@@ -11,17 +11,19 @@ class PushNotification
    *
    * @return response()
    */
-  public static function sendNotification($device_token)
+  public static function sendNotification($device_token, $title, $body)
   {
+    $type = is_array($device_token) ? "to" : "registration_ids";
+
     $message = array(
-      "title" => "Murid Siap Dijemput",
-      "body" => "Silahkan masuk dengan melakukan scan QR Code ini"
+      "title" => $title,
+      "body" => $body
     );
 
     $SERVER_API_KEY = config('app.firebase_server_key');
 
     $data = [
-      "to" => $device_token, // for single device id
+      $type => $device_token,
       "notification" => $message
     ];
     $dataString = json_encode($data);
