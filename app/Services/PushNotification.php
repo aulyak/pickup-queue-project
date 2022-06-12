@@ -41,7 +41,6 @@ class PushNotification
     curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
     $response = curl_exec($ch);
-    dump($response, $dataString);
 
     curl_close($ch);
 

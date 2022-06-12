@@ -8,8 +8,11 @@ use App\Models\PenjemputanHistory;
 use App\Services\PushNotification;
 use Carbon\Carbon;
 
+
 class PenjemputanObserver
 {
+  private static $queueLimit = 3;
+
   /**
    * Handle the Penjemputan "created" event.
    *
@@ -33,7 +36,7 @@ class PenjemputanObserver
       $dataPenjemputan = Penjemputan::whereDate('created_at', Carbon::today())->whereIn('status_penjemputan', ['in-process', 'driver-in'])->get();
       $numberOfQueues = $dataPenjemputan->count();
 
-      if ($numberOfQueues < 10) {
+      if ($numberOfQueues < $this->queueLimit) {
         $penjemputan->status_penjemputan = 'in-process';
         $penjemputan->save();
       }
@@ -62,7 +65,7 @@ class PenjemputanObserver
       $dataPenjemputan = Penjemputan::whereDate('created_at', Carbon::today())->whereIn('status_penjemputan', ['in-process', 'driver-in'])->get();
       $numberOfQueues = $dataPenjemputan->count();
 
-      if ($numberOfQueues < 10) {
+      if ($numberOfQueues < $this->queueLimit) {
         $penjemputan->status_penjemputan = 'in-process';
         $penjemputan->save();
       }
@@ -71,7 +74,6 @@ class PenjemputanObserver
     // 
     if ($penjemputan->status_penjemputan == 'in-process') {
       // hit firebase
-      dump('here');
       $penjemput = Penjemput::find($penjemputan->assigned_penjemput);
       PushNotification::sendNotification($penjemput->firebase_token);
     }
@@ -80,7 +82,7 @@ class PenjemputanObserver
       $dataPenjemputan = Penjemputan::whereDate('created_at', Carbon::today())->whereIn('status_penjemputan', ['in-process', 'driver-in'])->get();
       $numberOfQueues = $dataPenjemputan->count();
 
-      if ($numberOfQueues < 10) {
+      if ($numberOfQueues < $this->queueLimit) {
         $firstQueue = Penjemputan::whereDate('created_at', Carbon::today())
           ->whereIn('status_penjemputan', ['in-process', 'driver-in'])
           ->orderBy('created_at', 'ASC')
