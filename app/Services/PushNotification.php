@@ -14,6 +14,7 @@ class PushNotification
   public static function sendNotification($device_token, $title, $body)
   {
     $type = is_array($device_token) ? "to" : "registration_ids";
+    dump($type);
 
     $message = array(
       "title" => $title,
@@ -43,6 +44,7 @@ class PushNotification
     curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
 
     $response = curl_exec($ch);
+    dump($response);
 
     curl_close($ch);
 
