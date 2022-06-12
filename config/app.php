@@ -246,5 +246,6 @@ return [
     */
 
   'api_key' => env('API_KEY'),
+  'firebase_server_key' => env('FIREBASE_SERVER_KEY'),
 
 ];

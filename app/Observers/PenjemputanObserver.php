@@ -3,7 +3,9 @@
 namespace App\Observers;
 
 use App\Models\Penjemputan;
+use App\Models\Penjemput;
 use App\Models\PenjemputanHistory;
+use App\Services\PushNotification;
 use Carbon\Carbon;
 
 class PenjemputanObserver
@@ -69,6 +71,9 @@ class PenjemputanObserver
     // 
     if ($penjemputan->status_penjemputan == 'in-process') {
       // hit firebase
+      dump('here');
+      $penjemput = Penjemput::find($penjemputan->assigned_penjemput);
+      PushNotification::sendNotification($penjemput->firebase_token);
     }
 
     if ($penjemputan->status_penjemputan == 'finished') {
