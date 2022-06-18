@@ -21,7 +21,6 @@ class PenjemputanObserver
    */
   public function created(Penjemputan $penjemputan)
   {
-    //
     $retrieved = Penjemputan::find($penjemputan->id);
     $penjemputanHistory = new PenjemputanHistory;
     $penjemputanHistory->id_penjemputan = $retrieved->id;
@@ -31,7 +30,6 @@ class PenjemputanObserver
 
     $penjemputanHistory->save();
 
-    //
     if ($retrieved->status_penjemputan == 'driver-ready') {
       $dataPenjemputan = Penjemputan::whereDate('created_at', Carbon::today())->whereIn('status_penjemputan', ['in-process', 'driver-in'])->get();
       $numberOfQueues = $dataPenjemputan->count();
@@ -88,6 +86,7 @@ class PenjemputanObserver
       if ($numberOfQueues < $this->queueLimit) {
         $firstQueue = Penjemputan::whereDate('created_at', Carbon::today())
           ->whereIn('status_penjemputan', ['in-process', 'driver-in'])
+          ->whereIn('status_penjemputan', ['driver-ready'])
           ->orderBy('created_at', 'ASC')
           ->first();
 

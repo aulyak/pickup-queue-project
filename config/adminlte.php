@@ -16,7 +16,7 @@ return [
 
   'title' => 'ABC Kids',
   'title_prefix' => '',
-  'title_postfix' => '',
+  'title_postfix' => '- ABC Kids',
 
   /*
     |--------------------------------------------------------------------------
@@ -31,7 +31,7 @@ return [
     */
 
   'use_ico_only' => false,
-  'use_full_favicon' => false,
+  'use_full_favicon' => true,
 
   /*
     |--------------------------------------------------------------------------
