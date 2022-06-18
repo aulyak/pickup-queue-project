@@ -85,7 +85,6 @@ class PenjemputanObserver
 
       if ($numberOfQueues < $this->queueLimit) {
         $firstQueue = Penjemputan::whereDate('created_at', Carbon::today())
-          ->whereIn('status_penjemputan', ['in-process', 'driver-in'])
           ->whereIn('status_penjemputan', ['driver-ready'])
           ->orderBy('created_at', 'ASC')
           ->first();
