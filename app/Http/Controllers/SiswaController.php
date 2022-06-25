@@ -174,9 +174,9 @@ class SiswaController extends Controller
     $file = $request->file('file');
     $nama_file = rand() . $file->getClientOriginalName();
     $file->move('file_siswa', $nama_file);
+
     Excel::import(new SiswaImport, public_path('/file_siswa/' . $nama_file));
 
-    return redirect()->route('siswa.index')
-      ->with('success_message', 'Siswa data imported successfully.');
+    return back()->with('success', 'Siswa Imported Successfully.');
   }
 }

@@ -31,7 +31,7 @@ return [
     */
 
   'use_ico_only' => false,
-  'use_full_favicon' => true,
+  'use_full_favicon' => false,
 
   /*
     |--------------------------------------------------------------------------
@@ -282,6 +282,16 @@ return [
       'text'  => 'History Penjemputan',
       'url'   => 'penjemputan_history',
       'icon' => 'fas fa-solid fa-history'
+    ],
+    [
+      'text'  => 'Monitoring Penjemputan',
+      'url'   => 'penjemputan/monitoring/view',
+      'icon' => 'fas fa-solid fa-barcode'
+    ],
+    [
+      'text'  => 'Manual Request',
+      'url'   => 'penjemputan/manual/request',
+      'icon' => 'fas fa-solid fa-book'
     ],
   ],
 

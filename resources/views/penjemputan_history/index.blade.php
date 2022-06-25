@@ -66,7 +66,7 @@
                                             aria-describedby="table_penjemputan_info">
                                             <thead>
                                                 <tr role="row">
-                                                    <th>No.</th>
+                                                    <th>ID Penjemputan</th>
                                                     <th>NIS</th>
                                                     <th>Nama Siswa</th>
                                                     <th>Assigned Penjemput</th>
@@ -79,7 +79,7 @@
                                             <tbody>
                                                 @foreach ($data as $key => $penjemputanHistory)
                                                     <tr>
-                                                        <td>{{ $key + 1 }}</td>
+                                                        <td>{{ $penjemputanHistory->id_penjemputan }}</td>
                                                         <td>{{ $penjemputanHistory->siswa->nis }}</td>
                                                         <td>{{ $penjemputanHistory->siswa->nama_siswa }}</td>
                                                         <td>
@@ -87,10 +87,12 @@
                                                         </td>
                                                         <td>{{ $penjemputanHistory->assigned_penjemput }}</td>
                                                         <td>{{ $penjemputanHistory->status_penjemputan }}</td>
-                                                        <td>{{ $penjemputanHistory->created_at->toDayDateTimeString() }}
+                                                        <td data-sort="{{ $penjemputanHistory->created_at }}">
+                                                            {{ $penjemputanHistory->created_at->toDayDateTimeString() }}
                                                             ({{ $penjemputanHistory->created_at->diffForHumans() }})
                                                         </td>
-                                                        <td>{{ $penjemputanHistory->updated_at->toDayDateTimeString() }}
+                                                        <td data-sort="{{ $penjemputanHistory->updated_at }}">
+                                                            {{ $penjemputanHistory->updated_at->toDayDateTimeString() }}
                                                             ({{ $penjemputanHistory->updated_at->diffForHumans() }})</td>
                                                     </tr>
                                                 @endforeach
@@ -119,6 +121,33 @@
 @section('js')
     <script>
         $(document).ready(function() {
+
+            var table = $('#table_penjemputan').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+                "scrollX": true,
+            });
+
+            setTimeout(function() {
+                $.fn.dataTable.tables({
+                    visible: true,
+                    api: true
+                }).columns.adjust();
+            }, 350);
+
+            $('.nav-link').on('click', function() {
+                setTimeout(function() {
+                    $.fn.dataTable.tables({
+                        visible: true,
+                        api: true
+                    }).columns.adjust();
+                }, 350);
+            });
+
             $('.filter-date').submit(function(e) {
                 if ((!$('#startDate').val() && $('#endDate').val()) ||
                     ($('#startDate').val() && !$('#endDate').val()) ||
@@ -129,23 +158,6 @@
                     e.preventDefault();
                     return false;
                 }
-            });
-
-            var table = $('#table_penjemputan').DataTable({
-                // columnDefs: [{
-                //     bSortable: false,
-                //     targets: [0, 1, 4]
-                // }],
-                // order: [
-                //     [2, 'asc']
-                // ],
-                "paging": true,
-                "lengthChange": false,
-                "searching": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-                "scrollX": true,
             });
         });
     </script>

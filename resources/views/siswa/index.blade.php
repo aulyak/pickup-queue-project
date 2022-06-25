@@ -10,8 +10,7 @@
 
 @section('content')
 
-    <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <form method="post" action="/siswa/import_excel" enctype="multipart/form-data">
                 <div class="modal-content">
@@ -34,6 +33,30 @@
             </form>
         </div>
     </div>
+    @if (count($errors) > 0)
+        <div class="row">
+            <div class="col-md-8 col-md-offset-1">
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h4><i class="icon fa fa-ban"></i> Error!</h4>
+                    @foreach ($errors->all() as $error)
+                        {{ $error }} <br>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if (Session::has('success'))
+        <div class="row">
+            <div class="col-md-8 col-md-offset-1">
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <h5>{!! Session::get('success') !!}</h5>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <section class="content">
         <div class="container-fluid">
@@ -192,6 +215,22 @@
                 "autoWidth": false,
                 "responsive": true,
                 "scrollX": true,
+            });
+
+            setTimeout(function() {
+                $.fn.dataTable.tables({
+                    visible: true,
+                    api: true
+                }).columns.adjust();
+            }, 350);
+
+            $('.nav-link').on('click', function() {
+                setTimeout(function() {
+                    $.fn.dataTable.tables({
+                        visible: true,
+                        api: true
+                    }).columns.adjust();
+                }, 350);
             });
 
             // Add event listener for opening and closing details

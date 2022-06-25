@@ -56,46 +56,13 @@
                                             aria-describedby="table_penjemputan_info">
                                             <thead>
                                                 <tr role="row">
-                                                    <th>No.</th>
                                                     <th>NIS</th>
                                                     <th>Nama Siswa</th>
                                                     <th>Assigned Penjemput</th>
-                                                    <th>ID Penjemput</th>
                                                     <th>Status Penjemputan</th>
-                                                    <th>Created at</th>
-                                                    <th>Last Updated at</th>
-                                                    <th>Cancel</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($data as $key => $penjemputan)
-                                                    <tr>
-                                                        <td>{{ $key + 1 }}</td>
-                                                        <td>{{ $penjemputan->siswa->nis }}</td>
-                                                        <td>{{ $penjemputan->siswa->nama_siswa }}</td>
-                                                        <td>
-                                                            {{ $penjemputan->penjemput ? $penjemputan->penjemput->nama_penjemput : '-' }}
-                                                        </td>
-                                                        <td>{{ $penjemputan->assigned_penjemput }}</td>
-                                                        <td>{{ $penjemputan->status_penjemputan }}</td>
-                                                        <td data-sort="{{ $penjemputan->created_at }}">
-                                                            {{ $penjemputan->created_at->toDayDateTimeString() }}
-                                                            ({{ $penjemputan->created_at->diffForHumans() }})
-                                                        <td data-sort="{{ $penjemputan->updated_at }}">
-                                                            {{ $penjemputan->updated_at->toDayDateTimeString() }}
-                                                            ({{ $penjemputan->updated_at->diffForHumans() }})</td>
-                                                        <td>
-                                                            @if ($penjemputan->status_penjemputan != 'canceled')
-                                                                <div class="btn-group">
-                                                                    <a type="button" class="btn btn-danger mr-1"
-                                                                        onclick="notificationBeforeCancel(event, this)"
-                                                                        href={{ route('penjemputan.cancel', ['penjemputan' => $penjemputan]) }}><i
-                                                                            class="fa fa-times"></i></a>
-                                                                </div>
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
                                             </tbody>
                                         </table>
                                     </div>
@@ -119,28 +86,9 @@
 @stop
 
 @section('js')
-    <form action="" id="put-form" method="post">
-        @method('put')
-        @csrf
-    </form>
     <script>
-        function notificationBeforeCancel(event, el) {
-            event.preventDefault();
-
-            Swal.fire({
-                icon: 'warning',
-                title: 'Apakah anda yakin akan mengcancel penjemputan?',
-                text: 'Proses ini tidak dapat di-reverse.',
-                showCancelButton: true,
-            }).then(resp => {
-                if (resp.isConfirmed) {
-                    $("#put-form").attr('action', $(el).attr('href'));
-                    $("#put-form").submit();
-                }
-            });
-        }
-
         $(document).ready(function() {
+
             $('.nav-link').on('click', function() {
                 setTimeout(function() {
                     $.fn.dataTable.tables({
@@ -151,15 +99,33 @@
             });
 
             var table = $('#table_penjemputan').DataTable({
-                "paging": true,
+                "serverSide": true,
+                ajax: "{{ route('penjemputan.ajax') }}",
+                columns: [{
+                        data: 'nis',
+                    },
+                    {
+                        data: 'nama_siswa',
+                    },
+                    {
+                        data: 'assigned_penjemput',
+                    },
+                    {
+                        data: 'status_penjemputan',
+                    },
+                ],
+                "paging": false,
+                "searching": false,
                 "lengthChange": false,
-                "searching": true,
                 "info": true,
                 "autoWidth": false,
                 "responsive": true,
                 "scrollX": true,
             });
+
+            setInterval(function() {
+                table.ajax.reload(null, false);
+            }, 1000);
         });
     </script>
-
 @stop

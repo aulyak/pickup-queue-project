@@ -135,7 +135,7 @@ class PenjemputController extends BaseControoller
       ->where('status_penjemputan', '=', 'driver-ready')
       ->whereDate('created_at', Carbon::today())->first();
 
-    if (!$penjemputan) return $this->handleError('Failed.', 'Nothing to confirm', 500);
+    if (!$penjemputan) return $this->handleError('Failed.', 'Nothing to confirm', 404);
 
     $penjemputan->status_penjemputan = 'in-process';
     $penjemputan->save();
@@ -160,7 +160,7 @@ class PenjemputController extends BaseControoller
       ->where('status_penjemputan', '=', 'in-process')
       ->whereDate('created_at', Carbon::today())->first();
 
-    if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 500);
+    if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 404);
 
     return $this->handleResponse($penjemputan, 'Penjemputan retrieved');
   }
@@ -237,7 +237,7 @@ class PenjemputController extends BaseControoller
 
     $firebaseToken = $penjemput->firebase_token;
 
-    if (!$firebaseToken) return $this->handleError('Failed.', 'No token found', 500);
+    if (!$firebaseToken) return $this->handleError('Failed.', 'No token found', 404);
 
     return $this->handleResponse($firebaseToken, 'Token retrieved');
   }

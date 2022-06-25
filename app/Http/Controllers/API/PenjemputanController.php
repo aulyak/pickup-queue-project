@@ -21,7 +21,8 @@ class PenjemputanController extends BaseController
    */
   public function index()
   {
-    //
+    $data = Penjemputan::with('penjemput')->whereDate('created_at', Carbon::today())->get();
+    return response()->json($data);
   }
 
   /**
@@ -51,11 +52,18 @@ class PenjemputanController extends BaseController
     $nis = $request->input('nis');
     $siswa = Siswa::find($nis);
 
-    if (is_null($siswa)) return $this->handleError('Failed.', 'No matching NIS', 500);
+    if (is_null($siswa)) return $this->handleError('Failed.', 'No matching NIS', 404);
 
-    $penjemputan = Penjemputan::where('nis', '=', $nis)->whereDate('created_at', Carbon::today())->get()->first();
+    $penjemputan = Penjemputan::where('nis', '=', $nis)
+      ->whereDate('created_at', Carbon::today())
+      ->whereNotIn('status_penjemputan', ['canceled'])
+      ->get()
+      ->first();
 
-    if (!is_null($penjemputan)) return $this->handleError('Failed.', 'already FR', 500);
+    if (!is_null($penjemputan)) return $this->handleError('Failed.', 'already FR', 400);
+
+    $checkPenjemput = $siswa->penjemput->all();
+    if (count($checkPenjemput) == 0) return $this->handleError('Failed.', 'Siswa has no registered driver!', 404);
 
     $penjemput = $siswa->penjemput->where('ready_status', '=', 'ready')->first();
 
@@ -132,10 +140,12 @@ class PenjemputanController extends BaseController
   {
     $validator = Validator::make($request->all(), [
       'qr_code' => 'required',
+      'type' => 'required',
     ]);
 
     if ($validator->fails()) return $this->handleError('Failed.', ['error' => $validator->getMessageBag()->toArray()], 400);
     $qrCode = $request->qr_code;
+    $type = $request->type;
 
     $splitQr = explode('_', $qrCode);
     $createdAt = $splitQr[0];
@@ -151,17 +161,33 @@ class PenjemputanController extends BaseController
 
     if (!$penjemputan) return $this->handleError('Failed.', 'Wrong QR Code', 400);
 
-    if ($penjemputan->status_penjemputan == 'in-process') {
-      $penjemputan->status_penjemputan = 'driver-in';
-    } else if ($penjemputan->status_penjemputan == 'driver-in') {
-      $penjemputan->status_penjemputan = 'finished';
-      $penjemput = Penjemput::find($assignedPenjemput);
-      $penjemput->ready_status = 'not_ready';
-
-      $penjemput->save();
+    if ($type == 'in') {
+      if ($penjemputan->status_penjemputan == 'in-process') {
+        $penjemputan->status_penjemputan = 'driver-in';
+      } else {
+        return $this->handleError('Failed.', 'Status not allowed to advance', 400);
+      }
     } else {
-      return $this->handleError('Failed.', 'Status not allowed to advance', 400);
+      if ($penjemputan->status_penjemputan == 'driver-in') {
+        $penjemputan->status_penjemputan = 'finished';
+        $penjemput = Penjemput::find($assignedPenjemput);
+        $penjemput->ready_status = 'not_ready';
+      } else {
+        return $this->handleError('Failed.', 'Status not allowed to advance', 400);
+      }
     }
+
+    // if ($penjemputan->status_penjemputan == 'in-process') {
+    //   $penjemputan->status_penjemputan = 'driver-in';
+    // } else if ($penjemputan->status_penjemputan == 'driver-in') {
+    //   $penjemputan->status_penjemputan = 'finished';
+    //   $penjemput = Penjemput::find($assignedPenjemput);
+    //   $penjemput->ready_status = 'not_ready';
+
+    //   $penjemput->save();
+    // } else {
+    //   return $this->handleError('Failed.', 'Status not allowed to advance', 400);
+    // }
 
     $penjemputan->save();
 

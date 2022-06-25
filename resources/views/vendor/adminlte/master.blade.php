@@ -11,7 +11,7 @@
 
     {{-- Custom Meta Tags --}}
     @yield('meta_tags')
-    <link rel="icon" href="vendor/adminlte/dist/img/school.png" type="image/icon type">
+    <link rel="icon" href="{{ asset('image/school.png') }}">
 
     {{-- Title --}}
     <title>

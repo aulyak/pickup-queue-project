@@ -79,7 +79,10 @@ class PenjemputanObserver
       PushNotification::sendNotification($penjemput->firebase_token, "Murid Siap Dijemput", "Silahkan masuk dengan melakukan scan QR Code ini");
     }
 
-    if ($penjemputan->status_penjemputan == 'finished') {
+    if (
+      $penjemputan->status_penjemputan == 'finished' ||
+      $penjemputan->status_penjemputan == 'canceled'
+    ) {
       $dataPenjemputan = Penjemputan::whereDate('created_at', Carbon::today())->whereIn('status_penjemputan', ['in-process', 'driver-in'])->get();
       $numberOfQueues = $dataPenjemputan->count();
 
