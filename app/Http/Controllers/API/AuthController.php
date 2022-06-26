@@ -42,7 +42,8 @@ class AuthController extends BaseController
 
   public function logout(Request $request)
   {
-    $penjemput = Penjemput::find($request->id);
+    $correspondingPenjemputId = auth()->user()->id;
+    $penjemput = Penjemput::find($correspondingPenjemputId);
     $penjemput->tokens()->delete();
 
     return $this->handleResponse($penjemput, 'Logout Successful!');
