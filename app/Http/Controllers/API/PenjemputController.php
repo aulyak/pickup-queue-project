@@ -89,16 +89,12 @@ class PenjemputController extends BaseControoller
   /**
    * Confirm Driver Arrival on Location
    * 
-   * @param  \Illuminate\Http\Request  $request
-   * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function confirmAtLocation(Penjemput $penjemput)
+  public function confirmAtLocation()
   {
     $correspondingPenjemputId = auth()->user()->id;
-
-    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
-
+    $penjemput = Penjemput::find($correspondingPenjemputId);
     $penjemput->ready_status = 'ready';
 
     $penjemput->save();
@@ -121,15 +117,12 @@ class PenjemputController extends BaseControoller
   /**
    * Confirm Driver Initiating Pickup
    * 
-   * @param  \Illuminate\Http\Request  $request
-   * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function confirmPickup(Penjemput $penjemput)
+  public function confirmPickup()
   {
     $correspondingPenjemputId = auth()->user()->id;
-
-    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+    $penjemput = Penjemput::find($correspondingPenjemputId);
 
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
       ->where('status_penjemputan', '=', 'driver-ready')
@@ -146,15 +139,12 @@ class PenjemputController extends BaseControoller
   /**
    * Get penjemputan in process corresponding to current Penjemput
    * 
-   * @param  \Illuminate\Http\Request  $request
-   * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function getPenjemputanInProcess(Penjemput $penjemput)
+  public function getPenjemputanInProcess()
   {
     $correspondingPenjemputId = auth()->user()->id;
-
-    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+    $penjemput = Penjemput::find($correspondingPenjemputId);
 
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
       ->where('status_penjemputan', '=', 'in-process')
@@ -168,15 +158,12 @@ class PenjemputController extends BaseControoller
   /**
    * Get QR Code
    * 
-   * @param  \Illuminate\Http\Request  $request
-   * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function getQRCode(Penjemput $penjemput)
+  public function getQRCode()
   {
     $correspondingPenjemputId = auth()->user()->id;
-
-    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+    $penjemput = Penjemput::find($correspondingPenjemputId);
 
     if ($penjemput->ready_status != 'ready') return $this->handleError('Finished.', 'No penjemputan in process', 404);
 
@@ -200,14 +187,12 @@ class PenjemputController extends BaseControoller
    * Set Penjemput firebase token
    * 
    * @param  \Illuminate\Http\Request  $request
-   * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function setFirebaseToken(Penjemput $penjemput, Request $request)
+  public function setFirebaseToken(Request $request)
   {
     $correspondingPenjemputId = auth()->user()->id;
-
-    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+    $penjemput = Penjemput::find($correspondingPenjemputId);
 
     $validator = Validator::make($request->all(), [
       'firebase_token' => 'required',
@@ -225,15 +210,12 @@ class PenjemputController extends BaseControoller
   /**
    * Get Penjemput firebase token
    * 
-   * @param  \Illuminate\Http\Request  $request
-   * @param  $id
    * @return \Illuminate\Http\Response
    */
-  public function getFirebaseToken(Penjemput $penjemput)
+  public function getFirebaseToken()
   {
     $correspondingPenjemputId = auth()->user()->id;
-
-    if ($penjemput->id != $correspondingPenjemputId) return $this->handleError('Unauthorized.', 'Different ID is used', 403);
+    $penjemput = Penjemput::find($correspondingPenjemputId);
 
     $firebaseToken = $penjemput->firebase_token;
 

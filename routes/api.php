@@ -24,10 +24,10 @@ Route::post('/siswa/updateEmbeddingByNis', 'SiswaController@updateEmbeddingByNis
 Route::post('/login', 'AuthController@login');
 Route::group(['middleware' => ['auth:sanctum']], function () {
   Route::post('/logout', 'AuthController@logout');
-  Route::post('/confirm-at-location/{penjemput}', 'PenjemputController@confirmAtLocation');
-  Route::post('/confirm-pickup/{penjemput}', 'PenjemputController@confirmPickup');
-  Route::post('/get-penjemputan-in-process/{penjemput}', 'PenjemputController@getPenjemputanInProcess');
-  Route::post('/set-firebase-token/{penjemput}', 'PenjemputController@setFirebaseToken');
-  Route::post('/get-firebase-token/{penjemput}', 'PenjemputController@getFirebaseToken');
-  Route::post('/get-qr-code/{penjemput}', 'PenjemputController@getQRCode');
+  Route::post('/confirm-at-location', 'PenjemputController@confirmAtLocation');
+  Route::post('/confirm-pickup', 'PenjemputController@confirmPickup');
+  Route::post('/get-penjemputan-in-process', 'PenjemputController@getPenjemputanInProcess');
+  Route::post('/set-firebase-token', 'PenjemputController@setFirebaseToken');
+  Route::post('/get-firebase-token', 'PenjemputController@getFirebaseToken');
+  Route::post('/get-qr-code', 'PenjemputController@getQRCode');
 });
