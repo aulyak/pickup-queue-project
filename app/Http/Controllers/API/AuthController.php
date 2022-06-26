@@ -40,7 +40,7 @@ class AuthController extends BaseController
     return $this->handleError('Unauthorized.', ['error' => 'Unauthorized']);
   }
 
-  public function logout(Request $request)
+  public function logout()
   {
     $correspondingPenjemputId = auth()->user()->id;
     $penjemput = Penjemput::find($correspondingPenjemputId);
