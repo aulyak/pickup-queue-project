@@ -27,16 +27,14 @@ class PenjemputanHistoryController extends Controller
     //   'endDate' => 'required|date|before_or_equal:start_date',
     // ]);
 
-    $data = PenjemputanHistory::with('siswa')->with('penjemput')->get();
+    // $data = PenjemputanHistory::with('siswa')->with('penjemput')->get();
 
-    dd($data);
-
-    return view('penjemputan_history.index', compact('data'));
+    // return view('penjemputan_history.index', compact('data'));
   }
 
   public function indexFilter(Request $request)
   {
-    $data = PenjemputanHistory::with('penjemput')->get();
+    $data = PenjemputanHistory::with('siswa')->with('penjemput')->get();
     $filter = false;
 
     $startDatePicked = $request->startDate;
