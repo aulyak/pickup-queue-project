@@ -1,9 +1,9 @@
 @php
-// foreach ($data as $key => $penjemputanHistory) {
-//     dump($penjemputanHistory->siswa);
-// }
+foreach ($data as $key => $penjemputanHistory) {
+    dump($penjemputanHistory->siswa->nama_siswa);
+}
 
-// die();
+die();
 @endphp
 
 @extends('adminlte::page')
