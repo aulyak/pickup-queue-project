@@ -29,6 +29,8 @@ class PenjemputanHistoryController extends Controller
 
     $data = PenjemputanHistory::with('siswa')->with('penjemput')->get();
 
+    dd($data);
+
     return view('penjemputan_history.index', compact('data'));
   }
 
