@@ -1,3 +1,7 @@
+@php
+dd($data);
+@endphp
+
 @extends('adminlte::page')
 
 @section('title', 'History Penjemputan')

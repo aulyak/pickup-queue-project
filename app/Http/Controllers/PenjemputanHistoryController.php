@@ -34,7 +34,7 @@ class PenjemputanHistoryController extends Controller
 
   public function indexFilter(Request $request)
   {
-    $data = PenjemputanHistory::with('siswa')->with('penjemput')->get();
+    $data = PenjemputanHistory::with('siswa')->get();
     $filter = false;
 
     $startDatePicked = $request->startDate;
