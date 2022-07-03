@@ -38,23 +38,6 @@ class SiswaController extends BaseController
    */
   public function store(Request $request)
   {
-    $validator = Validator::make($request->all(), [
-      'nis' => 'required|unique:siswa,nis',
-      'nama_siswa' => 'required',
-      'embedding' => 'required',
-    ]);
-
-    if ($validator->fails()) return $this->handleError('Failed.', ['error' => $validator->getMessageBag()->toArray()], 400);
-
-    $newSiswa = new Siswa;
-
-    $newSiswa->nis = $request->input('nis');
-    $newSiswa->nama_siswa = $request->input('nama_siswa');
-    $newSiswa->embedding = $request->input('embedding');
-
-    $newSiswa->save();
-
-    return $this->handleResponse($newSiswa, 'Siswa has been registered successfully');
   }
 
   /**
@@ -65,11 +48,6 @@ class SiswaController extends BaseController
    */
   public function show($idSiswa)
   {
-    $siswa = Siswa::find($idSiswa);
-
-    if (!$siswa) return $this->handleError('Failed', 'No Siswa Found', 404);
-
-    return $this->handleResponse($siswa, 'Siswa retrieved successfully.');
   }
 
   /**
