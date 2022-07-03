@@ -52,7 +52,7 @@ class PenjemputanHistoryController extends Controller
       }
 
       $filter = true;
-      $data = PenjemputanHistory::with('penjemput')
+      $data = PenjemputanHistory::with('siswa')
         ->whereDate('created_at', '>=', $startDate)
         ->whereDate('created_at', '<=', $endDate)
         ->get();
