@@ -147,4 +147,20 @@ class PenjemputController extends Controller
     return redirect()->route('siswa.show', ["siswa" => $siswa])
       ->with('success_message', 'Penjemput deleted successfully');
   }
+
+  /**
+   * Set penjemput to inactive.
+   *
+   * @param  Penjemput $penjemput
+   * @return \Illuminate\Http\Response
+   */
+  public function setInactive(Penjemput $penjemput, Siswa $siswa)
+  {
+    $penjemput->status = 'inactive';
+    $penjemput->tokens()->delete();
+    $penjemput->save();
+
+    return redirect()->route('siswa.show', ["siswa" => $siswa])
+      ->with('success_message', 'Penjemput deleted successfully');
+  }
 }

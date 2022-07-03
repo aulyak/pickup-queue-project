@@ -19,7 +19,7 @@ class SiswaController extends Controller
    */
   public function index()
   {
-    $data = Siswa::with('penjemput')->get();
+    $data = Siswa::with('penjemput')->where('status', 'active')->get();
 
     return view('siswa.index', compact('data'));
   }
@@ -79,7 +79,8 @@ class SiswaController extends Controller
    */
   public function show(Siswa $siswa)
   {
-    $data_penjemput = $siswa->penjemput()->get();
+    if ($siswa->status == 'inactive') return abort(404);
+    $data_penjemput = $siswa->penjemput()->where('status', 'active')->get();
     return view('siswa.show', compact('siswa', 'data_penjemput'));
   }
 
@@ -91,6 +92,7 @@ class SiswaController extends Controller
    */
   public function edit(Siswa $siswa)
   {
+    if ($siswa->status == 'inactive') return abort(404);
     return view('siswa.edit', compact('siswa'));
   }
 
@@ -103,7 +105,7 @@ class SiswaController extends Controller
    */
   public function update(Request $request, Siswa $siswa)
   {
-
+    if ($siswa->status == 'inactive') return abort(404);
     $request->validate([
       'nama_siswa' => 'required',
       'foto_siswa' => 'image|mimes:jpg,jpeg,png'
@@ -178,5 +180,37 @@ class SiswaController extends Controller
     Excel::import(new SiswaImport, public_path('/file_siswa/' . $nama_file));
 
     return back()->with('success', 'Siswa Imported Successfully.');
+  }
+
+  /**
+   * Set siswa to inactive.
+   *
+   * @param  Siswa $siswa
+   * @return \Illuminate\Http\Response
+   */
+  public function setInactive(Siswa $siswa)
+  {
+    if ($siswa->status == 'inactive') return abort(404);
+    $data = $siswa->penjemput()->get();
+
+    DB::beginTransaction();
+    try {
+      $siswa->status = 'inactive';
+      foreach ($data as $key => $penjemput) {
+        $penjemput->status = 'inactive';
+        $penjemput->tokens()->delete();
+        $penjemput->save();
+      }
+
+      $siswa->save();
+
+      DB::commit();
+    } catch (\Exception $ex) {
+      DB::rollback();
+      return redirect()->route('siswa.index')
+        ->with('error_message', $ex);
+    }
+
+    return redirect()->route('siswa.index')->with('success_message', 'Siswa deleted successfully');
   }
 }

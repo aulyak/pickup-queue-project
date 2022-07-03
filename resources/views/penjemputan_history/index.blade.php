@@ -1,16 +1,3 @@
-@php
-foreach ($data as $key => $penjemputanHistory) {
-    try {
-        //code...
-        dump($penjemputanHistory->siswa->nama_siswa);
-    } catch (\Throwable $th) {
-        dump($penjemputanHistory->id);
-    }
-}
-
-die();
-@endphp
-
 @extends('adminlte::page')
 
 @section('title', 'History Penjemputan')

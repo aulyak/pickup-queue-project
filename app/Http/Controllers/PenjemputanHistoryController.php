@@ -55,7 +55,7 @@ class PenjemputanHistoryController extends Controller
       $data = PenjemputanHistory::with('penjemput')->with('siswa')
         ->whereDate('created_at', '>=', $startDate)
         ->whereDate('created_at', '<=', $endDate)
-        ->get()->pluck('siswa')->flatten();
+        ->get();
     }
 
     return view('penjemputan_history.index', compact('data', 'filter', 'startDatePicked', 'endDatePicked'));

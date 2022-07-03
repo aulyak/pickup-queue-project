@@ -22,7 +22,7 @@ class AuthController extends BaseController
     $no_penjemput = $request->no_penjemput;
     $nis = $request->nis;
     $device_name = $request->device_name;
-    $penjemput = Penjemput::where('no_penjemput', $no_penjemput)->where('nis', $nis)->first();
+    $penjemput = Penjemput::where('no_penjemput', $no_penjemput)->where('nis', $nis)->where('status', 'active')->first();
 
     if (!is_null($penjemput)) {
       $penjemputHasToken = $penjemput->tokens;

@@ -125,7 +125,7 @@
                                                                         class="fa fa-edit"></i></a>
                                                                 <a type="button" class="btn btn-danger mr-1"
                                                                     onclick="notificationBeforeDelete(event, this)"
-                                                                    href="{{ route('siswa.destroy', ['siswa' => $siswa]) }}"><i
+                                                                    href="{{ route('siswa.setInactive', ['siswa' => $siswa]) }}"><i
                                                                         class="fa fa-trash"></i></a>
                                                             </div>
                                                         </td>
@@ -156,7 +156,7 @@
 
 @section('js')
     <form action="" id="delete-form" method="post">
-        @method('delete')
+        @method('put')
         @csrf
     </form>
     <script>

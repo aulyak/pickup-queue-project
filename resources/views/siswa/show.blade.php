@@ -107,7 +107,7 @@ function encodeURIComponent($str)
                                                         class="fa fa-edit"></i></a>
                                                 <a type="button" class="btn btn-danger mr-1"
                                                     onclick="notificationBeforeDelete(event, this)"
-                                                    href="{{ route('penjemput.destroy.redirect', ['penjemput' => $penjemput, 'siswa' => $siswa]) }}"><i
+                                                    href="{{ route('penjemput.setInactive', ['penjemput' => $penjemput, 'siswa' => $siswa]) }}"><i
                                                         class="fa fa-trash"></i></a>
                                             </div>
                                         </td>
@@ -135,7 +135,7 @@ function encodeURIComponent($str)
 @section('js')
 
     <form action="" id="delete-form" method="post">
-        @method('delete')
+        @method('put')
         @csrf
     </form>
     <script>
