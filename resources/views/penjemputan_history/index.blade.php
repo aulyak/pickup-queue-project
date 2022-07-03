@@ -2,7 +2,7 @@
 foreach ($data as $key => $penjemputanHistory) {
     try {
         //code...
-        dump($penjemputanHistory->siswa);
+        dump($penjemputanHistory->siswa->nama_siswa);
     } catch (\Throwable $th) {
         dump($th);
     }
