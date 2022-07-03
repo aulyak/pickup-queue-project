@@ -1,6 +1,11 @@
 @php
 foreach ($data as $key => $penjemputanHistory) {
-    dump($penjemputanHistory->siswa);
+    try {
+        //code...
+        dump($penjemputanHistory->siswa);
+    } catch (\Throwable $th) {
+        dump($th);
+    }
 }
 
 die();
