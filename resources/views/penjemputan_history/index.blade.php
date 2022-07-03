@@ -4,7 +4,7 @@ foreach ($data as $key => $penjemputanHistory) {
         //code...
         dump($penjemputanHistory->siswa->nama_siswa);
     } catch (\Throwable $th) {
-        dump($th);
+        dump($penjemputanHistory->id);
     }
 }
 
