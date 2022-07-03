@@ -27,7 +27,7 @@ class PenjemputanHistoryController extends Controller
     //   'endDate' => 'required|date|before_or_equal:start_date',
     // ]);
 
-    $data = PenjemputanHistory::with('penjemput')->get();
+    $data = PenjemputanHistory::with('siswa')->with('penjemput')->get();
 
     return view('penjemputan_history.index', compact('data'));
   }
