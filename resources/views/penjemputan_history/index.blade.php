@@ -1,5 +1,6 @@
 @php
 foreach ($data as $key => $penjemputanHistory) {
+    dump($data);
     dump($data->siswa);
 }
 

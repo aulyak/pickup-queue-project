@@ -34,7 +34,7 @@ class PenjemputanHistoryController extends Controller
 
   public function indexFilter(Request $request)
   {
-    $data = PenjemputanHistory::with('siswa')->get();
+    $data = PenjemputanHistory::with('siswa')->get()->pluck('siswa')->flatten();;
     $filter = false;
 
     $startDatePicked = $request->startDate;
@@ -55,7 +55,7 @@ class PenjemputanHistoryController extends Controller
       $data = PenjemputanHistory::with('siswa')
         ->whereDate('created_at', '>=', $startDate)
         ->whereDate('created_at', '<=', $endDate)
-        ->get();
+        ->get()->pluck('siswa')->flatten();
     }
 
     return view('penjemputan_history.index', compact('data', 'filter', 'startDatePicked', 'endDatePicked'));
