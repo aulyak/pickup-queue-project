@@ -1,10 +1,10 @@
 @php
-foreach ($data as $key => $penjemputanHistory) {
-    dump($data);
-    dump($data->siswa);
-}
+// foreach ($data as $key => $penjemputanHistory) {
+//     dump($penjemputanHistory);
+//     dump($penjemputanHistory->siswa);
+// }
 
-die();
+// die();
 @endphp
 
 @extends('adminlte::page')
