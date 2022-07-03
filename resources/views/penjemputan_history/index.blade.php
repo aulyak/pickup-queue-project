@@ -1,5 +1,9 @@
 @php
-dd($data);
+foreach ($data as $key => $penjemputanHistory) {
+    dump($data->siswa);
+}
+
+die();
 @endphp
 
 @extends('adminlte::page')
