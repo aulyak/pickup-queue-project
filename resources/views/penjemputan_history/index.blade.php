@@ -1,6 +1,5 @@
 @php
 foreach ($data as $key => $penjemputanHistory) {
-    dump($penjemputanHistory);
     dump($penjemputanHistory->siswa);
 }
 
