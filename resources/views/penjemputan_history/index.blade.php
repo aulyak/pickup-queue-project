@@ -80,7 +80,7 @@
                                                 @foreach ($data as $key => $penjemputanHistory)
                                                     <tr>
                                                         <td>{{ $penjemputanHistory->id_penjemputan }}</td>
-                                                        <td>{{ $penjemputanHistory->siswa->nis }}</td>
+                                                        <td>{{ $penjemputanHistory->nis }}</td>
                                                         <td>{{ $penjemputanHistory->siswa->nama_siswa }}</td>
                                                         <td>
                                                             {{ $penjemputanHistory->penjemput ? $penjemputanHistory->penjemput->nama_penjemput : '-' }}
