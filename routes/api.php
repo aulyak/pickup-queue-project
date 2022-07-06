@@ -20,6 +20,7 @@ Route::post('/penjemputan/advance-status', 'PenjemputanController@advanceStatus'
 Route::post('/siswa/register', 'SiswaController@registerSiswa');
 Route::post('/siswa/updateEmbeddingByNis', 'SiswaController@updateEmbeddingByNis');
 Route::get('/siswa', 'SiswaController@index');
+Route::get('/siswa/{nis}', 'SiswaController@show');
 
 Route::post('/login', 'AuthController@login');
 Route::group(['middleware' => ['auth:sanctum']], function () {

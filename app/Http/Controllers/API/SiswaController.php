@@ -46,8 +46,12 @@ class SiswaController extends BaseController
    * @param  \App\Models\Siswa  $siswa
    * @return \Illuminate\Http\Response
    */
-  public function show($idSiswa)
+  public function show($nis)
   {
+    $siswa = Siswa::find($nis);
+    if (!$siswa || $siswa->status == 'inactive') return $this->handleError('Failed', 'No Siswa Found', 404);
+
+    return $this->handleResponse($siswa, 'Siswa is succesfully obtained.');
   }
 
   /**
@@ -56,7 +60,7 @@ class SiswaController extends BaseController
    * @param  \App\Models\Siswa  $siswa
    * @return \Illuminate\Http\Response
    */
-  public function edit($idSiswa)
+  public function edit($nis)
   {
   }
 
