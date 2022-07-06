@@ -16,7 +16,7 @@ class SiswaController extends BaseController
    */
   public function index()
   {
-    $data = Siswa::with('penjemput')->get();
+    $data = Siswa::with('penjemput')->where('status', 'active')->get();
 
     return $this->handleResponse($data, 'Siswa retrieved successfully.');
   }
@@ -100,7 +100,7 @@ class SiswaController extends BaseController
 
     $siswa = Siswa::find($request->input('nis'));
 
-    if (!$siswa) return $this->handleError('Failed', 'No Siswa Found', 404);
+    if (!$siswa || $siswa->status == 'inactive') return $this->handleError('Failed', 'No Siswa Found', 404);
 
     $siswa->embedding = $request->input('embedding');
     $siswa->save();
