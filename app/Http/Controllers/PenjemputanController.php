@@ -49,7 +49,7 @@ class PenjemputanController extends Controller
    */
   public function create()
   {
-    $data = Siswa::with('penjemput')->get();
+    $data = Siswa::with('penjemput')->where('status', 'active')->get();
 
     return view('penjemputan.manual_request', compact('data'));
   }

@@ -52,7 +52,7 @@ class PenjemputanController extends BaseController
     $nis = $request->input('nis');
     $siswa = Siswa::find($nis);
 
-    if (is_null($siswa)) return $this->handleError('Failed.', 'No matching NIS', 404);
+    if (is_null($siswa) || $siswa->status == 'inactive') return $this->handleError('Failed.', 'No matching NIS', 404);
 
     $penjemputan = Penjemputan::where('nis', '=', $nis)
       ->whereDate('created_at', Carbon::today())
@@ -176,18 +176,6 @@ class PenjemputanController extends BaseController
         return $this->handleError('Failed.', 'Status not allowed to advance', 400);
       }
     }
-
-    // if ($penjemputan->status_penjemputan == 'in-process') {
-    //   $penjemputan->status_penjemputan = 'driver-in';
-    // } else if ($penjemputan->status_penjemputan == 'driver-in') {
-    //   $penjemputan->status_penjemputan = 'finished';
-    //   $penjemput = Penjemput::find($assignedPenjemput);
-    //   $penjemput->ready_status = 'not_ready';
-
-    //   $penjemput->save();
-    // } else {
-    //   return $this->handleError('Failed.', 'Status not allowed to advance', 400);
-    // }
 
     $penjemputan->save();
 
