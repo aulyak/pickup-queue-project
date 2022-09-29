@@ -20,9 +20,9 @@
         </div>
     @endif
 
-    <div class="card card-primary">
+    <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Manual Request</h3>
+            <h2 class="float-left">Data Penjemputan</h2>
         </div>
         <form>
             @csrf

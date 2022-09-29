@@ -52,3 +52,9 @@
     @stack('js')
     @yield('js')
 @stop
+
+<style>
+.main-header, .card-header, thead > tr, .dt-control {
+    background-color: #FEFBF4 !important
+}
+</style>

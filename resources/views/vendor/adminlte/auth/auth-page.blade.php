@@ -59,3 +59,14 @@
     @stack('js')
     @yield('js')
 @stop
+
+<style>
+.login-page {
+    background-image: url('/image/ABCBackground.jpeg');
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+</style>

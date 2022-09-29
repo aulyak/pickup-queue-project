@@ -45,8 +45,8 @@ return [
     |
     */
 
-  'logo' => '<b>ABC Kids</b>',
-  'logo_img' => 'vendor/adminlte/dist/img/school.png',
+  'logo' => '&nbsp&nbsp&nbsp&nbsp&nbsp',
+  'logo_img' => 'image/ABCLogo.jpeg',
   'logo_img_class' => 'brand-image img-circle elevation-3',
   'logo_img_xl' => null,
   'logo_img_xl_class' => 'brand-image-xs',
