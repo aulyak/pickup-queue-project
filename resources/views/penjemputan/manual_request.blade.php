@@ -22,7 +22,7 @@
 
     <div class="card">
         <div class="card-header">
-            <h2 class="float-left">Data Penjemputan</h2>
+            <h2 class="float-left">Manual Request</h2>
         </div>
         <form>
             @csrf
