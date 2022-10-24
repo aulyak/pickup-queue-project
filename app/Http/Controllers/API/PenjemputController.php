@@ -165,13 +165,15 @@ class PenjemputController extends BaseControoller
     $correspondingPenjemputId = auth()->user()->id;
     $penjemput = Penjemput::find($correspondingPenjemputId);
 
-    if ($penjemput->ready_status != 'ready') return $this->handleError('Finished.', 'No penjemputan in process', 404);
+    if ($penjemput->ready_status != 'ready') return $this->handleError('Failed.', 'Please confirm your location first.', 404);
 
     $penjemputan = Penjemputan::where('nis', $penjemput->siswa->nis)
-      ->whereIn('status_penjemputan', ['in-process', 'driver-in'])
+      ->whereIn('status_penjemputan', ['in-process', 'driver-in', 'finished'])
       ->whereDate('created_at', Carbon::today())->first();
 
     if (!$penjemputan) return $this->handleError('Failed.', 'No penjemputan in process', 404);
+
+    if ($penjemputan->status_penjemputan == 'finished') return $this->handleError('Finished.', 'You have done the pick up today.', 404);
 
     $createdTime = $penjemputan->created_at;
     $nis = $penjemputan->nis;
