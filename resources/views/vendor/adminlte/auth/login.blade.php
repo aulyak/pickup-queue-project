@@ -95,3 +95,11 @@
         </p>
     @endif --}}
 @stop
+
+@section('footer')
+    <p class="my-0">
+        <a href="{{ route('privacy_policy') }}">
+            Privacy Policy
+        </a>
+    </p>
+@stop

@@ -57,3 +57,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   Route::put('/penjemputan/cancel/{penjemputan}', 'PenjemputanController@cancel')->name('penjemputan.cancel');
   Route::put('/penjemput/set_inactive/{penjemput}/{siswa}', 'PenjemputController@setInactive')->name('penjemput.setInactive');
 });
+
+Route::get('/privacy_policy', function () {
+  return view('privacy-policy');
+})->name('privacy_policy');
