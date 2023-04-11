@@ -11,7 +11,7 @@ use Carbon\Carbon;
 
 class PenjemputanObserver
 {
-  private $queueLimit = 3;
+  private $queueLimit = 10;
 
   /**
    * Handle the Penjemputan "created" event.
